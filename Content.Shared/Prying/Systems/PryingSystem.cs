@@ -153,7 +153,7 @@ public sealed class PryingSystem : EntitySystem
         if (!comp.Enabled)
             return false;
 
-        if (!CanPry(target, user, out var message, comp))
+        if (!CanPry(target, user, out var message, comp, tool: tool)) // DeltaV - Add tool
         {
             if (!string.IsNullOrWhiteSpace(message))
                 _popup.PopupClient(Loc.GetString(message), target, user);
@@ -188,7 +188,11 @@ public sealed class PryingSystem : EntitySystem
         return StartPry(target, user, user, modifier, out id); // Goob edit
     }
 
-    private bool CanPry(EntityUid target, EntityUid user, out string? message, PryingComponent? comp = null, PryUnpoweredComponent? unpoweredComp = null)
+        /// <summary>
+    /// DeltaV - Add tool field
+    /// </summary>
+    /// <param name="tool">DeltaV - The tool uid if one is being used.</param>
+    private bool CanPry(EntityUid target, EntityUid user, out string? message, PryingComponent? comp = null, PryUnpoweredComponent? unpoweredComp = null, EntityUid? tool = null)
     {
         BeforePryEvent canev;
 
@@ -208,6 +212,11 @@ public sealed class PryingSystem : EntitySystem
         }
 
         RaiseLocalEvent(target, ref canev);
+
+        // Begin DeltaV - Raise event on tool if one is being used.
+        if (tool is {} toolUid)
+            RaiseLocalEvent(toolUid, ref canev);
+        // End DeltaV - Raise event on tool if one is being used.
 
         message = canev.Message;
 
@@ -254,7 +263,7 @@ public sealed class PryingSystem : EntitySystem
 
         TryComp<PryingComponent>(args.Used, out var comp);
 
-        if (!CanPry(uid, args.User, out var message, comp))
+         if (!CanPry(uid, args.User, out var message, comp, tool: args.Used)) // DeltaV - Check tool for power
         {
             if (!string.IsNullOrWhiteSpace(message))
                 _popup.PopupClient(Loc.GetString(message), uid, args.User);
@@ -268,6 +277,10 @@ public sealed class PryingSystem : EntitySystem
 
         var ev = new PriedEvent(args.User);
         RaiseLocalEvent(uid, ref ev);
+        // Begin DeltaV - Emergency JoL uses power.
+        if (args.Used is {} tool)
+            RaiseLocalEvent(tool, ref ev);
+        // End DeltaV - Emergency JoL uses power.
 
         if (TryComp(args.Used, out UseDelayComponent? delay)) // Goobstation
             _delay.TryResetDelay((args.Used.Value, delay));
