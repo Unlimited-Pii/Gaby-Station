@@ -49,9 +49,9 @@
   recipeUnlocks:
   - WeaponLaserCellRevolver
   - PowerCellIRRevolver
-  position: 3,0
+  position: 3,1
   technologyPrerequisites:
-  - DraconicMunitions
+  - AdvancedRiotControl
 
 - type: technology
   id: RestraintTechnology
@@ -65,7 +65,8 @@
   recipeUnlocks:
   - ClothingMaskMuzzleSecure
   - ClothingMaskMuzzleShock
-  position: 1,1
+  - ClothingBackpackElectropack
+  position: 2,2
   technologyPrerequisites:
   - SalvageWeapons
 
@@ -83,7 +84,7 @@
   - WeaponLaserCellSMG
   - PowerCellIRSMG
   - PowerCellIonSMG
-  position: 5,-1
+  position: 3,-1
   technologyPrerequisites:
   - WeaponizedLaserManipulation
 
@@ -110,7 +111,11 @@
   - WeaponMechCombatUltraRifle
   technologyPrerequisites:
   - RipleyAPLU
-  position: 2,-1
+  - AdvancedRiotControl
+  - PortableMicrofusionWeaponry
+  - SmartWeaponry
+  - ThermalVisionTech
+  position: 6,0
 
 - type: technology
   id: EnergyBoltBasedWeaponry # for future energy bolt weapon
@@ -128,7 +133,7 @@
   - EnergyMagRifleLethal
   technologyPrerequisites:
   - WaveParticleHarnessing
-  position: 6,1
+  position: 1,0
 
 # Tier 3
 
@@ -136,7 +141,7 @@
   id: WeaponLaserCellSniperTech
   name: research-technology-mag-fed-sniper
   icon:
-    sprite: _Goobstation/Objects/Weapons/Guns/Battery/cell_sniper.rsi
+    sprite: _Goobstation/Objects/Weapons/Guns/Battery/cell_sniper_icon_48x.rsi
     state: icon
   discipline: Arsenal
   tier: 3
@@ -145,7 +150,7 @@
   - WeaponLaserCellSniper
   - PowerCellIRSniper
   - PowerCellIonSniper
-  position: 6,-1
+  position: 4,-1
   technologyPrerequisites:
   - WeaponLaserCellSMGTech
 
@@ -153,7 +158,7 @@
   id: WeaponLaserCellLMGTech
   name: research-technology-mag-fed-lmg
   icon:
-    sprite: _Goobstation/Objects/Weapons/Guns/Battery/energy_lmg.rsi
+    sprite: _Goobstation/Objects/Weapons/Guns/Battery/energy_lmg_icon_48x.rsi
     state: icon
   discipline: Arsenal
   tier: 3
@@ -161,7 +166,7 @@
   recipeUnlocks:
   - ClothingBackpackLMGBattery
   - MilitaryPowerCellLMG
-  position: 6,-2
+  position: 3,-2
   technologyPrerequisites:
   - WeaponLaserCellSMGTech
 
@@ -178,7 +183,7 @@
   - WeaponMechCombatMissileRack8
   technologyPrerequisites:
   - Gygax
-  position: 3,-2
+  position: 7,0
 
 - type: technology
   id: Durand
@@ -204,7 +209,7 @@
   - WeaponMechCombatShotgunIncendiary
   technologyPrerequisites:
   - Gygax
-  position: 3,-1
+  position: 6,-1
 
 - type: technology
   id: SmartWeaponry
@@ -219,5 +224,25 @@
   - WeaponSubMachineSmart
   - MagazineSmart
   technologyPrerequisites:
-  - UraniumMunitions
-  position: 4,2
+  - NonlethalAmmunition
+  position: 4,4
+
+- type: technology
+  id: BlueSpaceMunitions
+  name: research-technology-bluespace-munitions
+  icon:
+    sprite: _Goobstation/Objects/Weapons/Guns/Ammunition/Magazine/energy_cell_revolver.rsi
+    state: bluespace_research
+  discipline: Arsenal
+  tier: 3
+  cost: 25000
+  recipeUnlocks:
+  - PowerCellBluespaceRevolver
+  - PowerCellBluespaceSMG
+  - PowerCellBluespaceSniper
+  - MilitaryPowerCellBluespaceLMG
+  - EnergyMagRifleBluespaceLethal
+  technologyPrerequisites:
+  - WeaponLaserCellLMGTech
+  - WeaponLaserCellSniperTech
+  position: 4, -2

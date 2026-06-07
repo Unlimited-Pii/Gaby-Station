@@ -1,0 +1,592 @@
+# SPDX-FileCopyrightText: 2026 Space Station 14 Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  id: MobMonkeyDwarf
+  parent: MobMonkey
+  suffix: AI, Dwarf
+  components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    scale: 1, 0.75
+  - type: DnaModifier
+    upper: MobDwarf
+    lowest: MobMonkeyDwarf
+
+- type: entity
+  id: MobMonkeyOni
+  parent: MobMonkey
+  suffix: AI, Oni
+  components:
+  - type: DnaModifier
+    upper: MobOni
+    lowest: MobMonkeyOni
+
+- type: entity
+  id: MobMonkeyDaengati
+  parent: MobMonkey
+  suffix: AI, Daengati
+  components: 
+  - type: DnaModifier
+    upper: MobDaengati
+    lowest: MobMonkeyDaengati
+
+- type: entity
+  name: gray slime
+  id: MobAdultSlimesGrey
+  parent: MobAdultSlimes
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _Wega/Mobs/Aliens/slimes.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: grey_adult_slime
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: grey_adult_slime
+      Dead:
+        Base: grey_adult_slime_dead
+  - type: DnaModifier
+    upper: MobSlimePerson
+    lowest: MobAdultSlimesGrey
+
+- type: entity
+  id: MobMouseRodentia
+  parent: MobMouse
+  suffix: AI, Rodentia
+  components: 
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      50: Critical
+      100: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 200
+      behaviors:
+      - !type:GibBehavior
+        recursive: false
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    scale: 2, 2
+  - type: DnaModifier
+    upper: MobRodentia
+    lowest: MobMouseRodentia
+
+- type: entity
+  id: MobMothroachMoth
+  parent: MobMothroach
+  suffix: AI, Moth
+  components: 
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      50: Critical
+      100: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 200
+      behaviors:
+      - !type:GibBehavior
+        recursive: false
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    scale: 2, 2
+  - type: DnaModifier
+    upper: MobMoth
+    lowest: MobMothroachMoth
+
+- type: entity
+  id: MobCockroachChitinid
+  parent: MobCockroach
+  suffix: AI, Chitinid
+  components: 
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      50: Critical
+      100: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 200
+      behaviors:
+      - !type:GibBehavior
+        recursive: false
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    scale: 2, 2
+  - type: DnaModifier
+    upper: MobChitinid
+    lowest: MobCockroachChitinid
+
+- type: entity
+  id: MobSquackroachHarpy
+  parent: MobSquackroach
+  suffix: AI, Harpy
+  components: 
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      50: Critical
+      100: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 200
+      behaviors:
+      - !type:GibBehavior
+        recursive: false
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+    scale: 2, 2
+  - type: DnaModifier
+    upper: MobHarpy
+    lowest: MobSquackroachHarpy
+
+- type: entity
+  name: genetic ancestor
+  id: MobBaseGeneticAncestor
+  parent: [SimpleMobBase, StripableInventoryBase, BaseMobDisgust] # Goob edit
+  description: The genetic bipedal ancestor of... Uh... Something. Yeah, there's definitely something on the station that descended from whatever this is.
+  abstract: true
+  components:
+  - type: VentCrawler # goobstation - Ventcrawl
+    allowInventory: false
+  - type: CombatMode
+  # # Shitmed Change Start
+  # - type: Targeting
+  # - type: HumanoidAppearance
+  #   species: Monkey
+  # # Shitmed Change End
+  - type: Inventory
+    templateId: monkey
+    speciesId: monkey
+  - type: Deathgasp
+    prototype: MonkeyDeathgasp
+  - type: Cuffable
+  - type: RotationVisuals
+    defaultRotation: 90
+    horizontalRotation: 90
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 80
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: Stripping
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+  # Shitmed Change Start
+    - map: [ "enum.HumanoidVisualLayers.Chest" ]
+    - map: [ "enum.HumanoidVisualLayers.Groin" ]
+    - map: [ "enum.HumanoidVisualLayers.Head" ]
+    - map: [ "enum.HumanoidVisualLayers.Snout" ]
+    - map: [ "enum.HumanoidVisualLayers.Eyes" ]
+    - map: [ "enum.HumanoidVisualLayers.RArm" ]
+    - map: [ "enum.HumanoidVisualLayers.LArm" ]
+    - map: [ "enum.HumanoidVisualLayers.RLeg" ]
+    - map: [ "enum.HumanoidVisualLayers.LLeg" ]
+    - state: monkey_skinned # Goobstation - Fuck pun-pun
+      sprite: /Textures/Mobs/Animals/monkey.rsi
+      visible: false
+      map: [ "enum.ToggleableVisuals.Layer" ]
+    - map: ["jumpsuit"]
+    - map: ["enum.HumanoidVisualLayers.LFoot"]
+    - map: ["enum.HumanoidVisualLayers.RFoot"]
+    - map: ["enum.HumanoidVisualLayers.LHand"]
+    - map: ["enum.HumanoidVisualLayers.RHand"]
+    - map: ["enum.HumanoidVisualLayers.Handcuffs"]
+      color: "#ffffff"
+      sprite: Objects/Misc/handcuffs.rsi
+      state: body-overlay-2
+      visible: false
+    - map: [ "gloves" ]
+    - map: [ "shoes" ]
+    - map: [ "ears" ]
+    - map: [ "id" ]
+    - map: [ "outerClothing" ]
+    - map: [ "eyes" ]
+    - map: [ "belt" ]
+    - map: [ "neck" ]
+    - map: [ "back" ]
+    - map: [ "enum.HumanoidVisualLayers.FacialHair" ]
+    - map: [ "enum.HumanoidVisualLayers.HeadSide" ]
+    - map: [ "maskalt" ]
+    - map: [ "enum.HumanoidVisualLayers.Hair" ]
+    - map: [ "mask" ]
+    - map: [ "enum.HumanoidVisualLayers.HeadTop" ]
+    - map: [ "enum.HumanoidVisualLayers.Tail" ]
+    - map: [ "head" ]
+    - map: [ "pocket1" ]
+    - map: [ "pocket2" ]
+  # Shitmed Change End
+  - type: Hands
+  - type: ComplexInteraction
+  - type: GenericVisualizer
+    visuals:
+      enum.CreamPiedVisuals.Creamed:
+        clownedon:
+          True: {visible: true}
+          False: {visible: false}
+      enum.ToggleableVisuals.Enabled: # Goobstation - Skinnable monkey
+        enum.ToggleableVisuals.Layer:
+          True: { visible: true }
+          False: { visible: false }
+      enum.CultHaloVisuals.CultHalo:
+        culthalo:
+          True: { visible: true }
+          False: { visible: false }
+      enum.CultEyesVisuals.CultEyes:
+          culteyes:
+            True: { visible: true }
+            False: { visible: false }
+  - type: Body # Shitmed Change
+    bodyType: Complex
+    prototype: Monkey
+    requiredLegs: 2
+  - type: CreamPied
+  - type: FireVisuals
+    sprite: Mobs/Effects/onfire.rsi
+    normalState: Monkey_burning
+  - type: InteractionPopup
+    successChance: 0.9
+    interactSuccessString: petting-success-monkey
+    interactFailureString: petting-failure-monkey
+    interactSuccessSpawn: EffectHearts
+    interactSuccessSound:
+      path: /Audio/Animals/ferret_happy.ogg
+    interactFailureSound:
+      path: /Audio/Items/wirecutter.ogg
+  - type: MeleeWeapon
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    angle: 30
+    animation: WeaponArcBite
+    damage:
+      types:
+        Blunt: 3
+        Piercing: 3
+  - type: Butcherable
+    butcheringType: Spike
+    spawned:
+    - id: FoodMeat
+      amount: 3
+  - type: Puller
+    needsHands: false
+  - type: CanHostGuardian
+  - type: NPCRetaliation
+    attackMemoryLength: 10
+  # Goobstation
+  - type: GroupRetaliation
+    range: 8
+  - type: FactionException
+  - type: NpcFactionMember
+    factions:
+      - Passive
+      - Monkey  # Goob Balloons Edit
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+  - type: IdExaminable
+  - type: Tag
+    tags:
+    - VimPilot
+    - DoorBumpOpener
+    - AnomalyHost
+  - type: Reactive
+    groups:
+      Flammable: [ Touch ]
+      Extinguish: [ Touch ]
+    reactions:
+    - reagents: [ Water, SpaceCleaner ]
+      methods: [ Touch ]
+      effects:
+      - !type:WashCreamPieReaction
+  - type: Vocal # Goobstation
+    sounds:
+      Male: MonkeyMode
+      Female: MonkeyMode
+      Unsexed: MonkeyMode
+    wilhelmProbability: 0.001
+  - type: Consciousness
+    hasPainScreams: false
+    threshold: 70
+    cap: 140
+  - type: Crawler
+  - type: DiseaseCarrier # Goobstation
+
+- type: entity
+  name: neara
+  id: MobSkrellkey
+  parent: MobBaseGeneticAncestor
+  description: Skrell's and Feroxi ancient ancestor in the flesh. Loves water and seems to want to find a way to kill you.
+  components:
+  - type: NameIdentifier
+    group: Monkey
+  - type: MonkeyAccent
+  - type: Speech
+    speechSounds: Monkey
+    speechVerb: Monkey
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: skrellkey
+      sprite: _Wega/Mobs/Animals/skrellkey.rsi
+    - map: [ "jumpsuit" ]
+    - map: [ "enum.HumanoidVisualLayers.Handcuffs" ]
+      color: "#ffffff"
+      sprite: Objects/Misc/handcuffs.rsi
+      state: body-overlay-2
+      visible: false
+    - map: [ "ears" ]
+    - map: [ "id" ]
+    - map: [ "outerClothing" ]
+    - map: [ "mask" ]
+    - map: [ "head" ]
+    - map: [ "clownedon" ]
+      sprite: "Effects/creampie.rsi"
+      state: "creampie_human"
+      visible: false
+  - type: AlwaysRevolutionaryConvertible
+  - type: GhostTakeoverAvailable
+  - type: Clumsy
+    gunShootFailDamage:
+      types:
+        Blunt: 5
+        Piercing: 4
+      groups:
+        Burn: 3
+    clumsySound:
+      path: /Audio/Animals/monkey_scream.ogg
+  - type: SentienceTarget
+    flavorKind: station-event-random-sentience-flavor-skrellkey
+  - type: GhostRole
+    prob: 0.05
+    makeSentient: true
+    name: ghost-role-information-skrellkey-name
+    description: ghost-role-information-skrellkey-description
+    rules: ghost-role-information-nonantagonist-rules
+  - type: DnaModifier
+    upper: MobFeroxi
+    lowest: MobSkrellkey
+  - type: Reactive
+    groups:
+      Flammable: [ Touch ]
+      Extinguish: [ Touch ]
+    reactions:
+    - reagents: [ Water, SpaceCleaner ]
+      methods: [ Touch ]
+      effects:
+      - !type:WashCreamPieReaction
+    - reagents: [ Water ]
+      methods: [ Touch ]
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: -1
+            Blunt: -1
+            Poison: -0.75
+    - reagents: [ Holywater ]
+      methods: [ Touch ]
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: -0.25
+            Blunt: -0.25
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: Feroxi
+  - type: SolutionScanner
+
+- type: entity
+  name: stok
+  id: MobStokkey
+  parent: MobBaseGeneticAncestor
+  description: The brutal progenitor of the Vox. For unknown genetic reasons, sometimes transforms into Resomi. Absolutely terrifying.
+  suffix: AI, Resomi
+  components:
+  - type: NameIdentifier
+    group: Monkey
+  - type: MonkeyAccent
+  - type: Speech
+    speechSounds: Monkey
+    speechVerb: Monkey
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: stokkey
+      sprite: _Wega/Mobs/Animals/stokkey.rsi
+    - map: [ "jumpsuit" ]
+    - map: [ "enum.HumanoidVisualLayers.Handcuffs" ]
+      color: "#ffffff"
+      sprite: Objects/Misc/handcuffs.rsi
+      state: body-overlay-2
+      visible: false
+    - map: [ "ears" ]
+    - map: [ "id" ]
+    - map: [ "outerClothing" ]
+    - map: [ "mask" ]
+    - map: [ "head" ]
+    - map: [ "clownedon" ]
+      sprite: "Effects/creampie.rsi"
+      state: "creampie_human"
+      visible: false
+  - type: AlwaysRevolutionaryConvertible
+  - type: GhostTakeoverAvailable
+  - type: Clumsy
+    gunShootFailDamage:
+      types:
+        Blunt: 5
+        Piercing: 4
+      groups:
+        Burn: 3
+    clumsySound:
+      path: /Audio/Animals/monkey_scream.ogg
+  - type: SentienceTarget
+    flavorKind: station-event-random-sentience-flavor-stokkey
+  - type: GhostRole
+    prob: 0.05
+    makeSentient: true
+    name: ghost-role-information-stokkey-name
+    description: ghost-role-information-stokkey-description
+    rules: ghost-role-information-nonantagonist-rules
+  - type: DnaModifier
+    upper: MobResomi
+    lowest: MobStokkey
+
+- type: entity
+  id: MobStokkeyVox
+  parent: MobStokkey
+  suffix: AI, Vox
+  components:
+  - type: DnaModifier
+    upper: MobVox
+    lowest: MobStokkeyVox
+  - type: Body
+    prototype: Stokkey
+  - type: Bloodstream
+    bloodReagent: AmmoniaBlood
+
+- type: entity
+  name: wolpin
+  id: MobWolfling
+  parent: MobBaseGeneticAncestor
+  description: Genetically Vulpakins brother, they are a lot of fun to burn but carefully, they have a plan.
+  components:
+  - type: NameIdentifier
+    group: Monkey
+  - type: Speech
+    speechSounds: Monkey
+    speechVerb: Monkey
+  - type: MonkeyAccent
+  - type: SentienceTarget
+    flavorKind: station-event-random-sentience-flavor-primate
+  - type: AlwaysRevolutionaryConvertible
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: wolfling
+      sprite: _Wega/Mobs/Animals/wolfling.rsi
+    - map: [ "jumpsuit" ]
+    - map: [ "enum.HumanoidVisualLayers.Handcuffs" ]
+      color: "#ffffff"
+      sprite: Objects/Misc/handcuffs.rsi
+      state: body-overlay-2
+      visible: false
+    - map: [ "ears" ]
+    - map: [ "id" ]
+    - map: [ "outerClothing" ]
+    - map: [ "mask" ]
+    - map: [ "head" ]
+    - map: [ "clownedon" ]
+      sprite: "Effects/creampie.rsi"
+      state: "creampie_human"
+      visible: false
+  - type: GhostRole
+    prob: 0.05
+    makeSentient: true
+    name: ghost-role-information-wolfling-name
+    description: ghost-role-information-wolfling-description
+    rules: ghost-role-information-nonantagonist-rules
+  - type: GhostTakeoverAvailable
+  - type: Clumsy
+    gunShootFailDamage:
+      types:
+        Blunt: 5
+        Piercing: 4
+      groups:
+        Burn: 3
+    clumsySound:
+      path: /Audio/Animals/monkey_scream.ogg
+  - type: DnaModifier
+    upper: MobVulpkanin
+    lowest: MobWolfling
+
+- type: entity
+  name: farwa
+  id: MobTajkey
+  parent: MobBaseGeneticAncestor
+  description: A small version of Tajarin. He doesn't look like his bigger self. What the hell is he?
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: tajkey
+      sprite: _Wega/Mobs/Animals/tajkey.rsi
+    - map: [ "jumpsuit" ]
+    - map: [ "enum.HumanoidVisualLayers.Handcuffs" ]
+      color: "#ffffff"
+      sprite: Objects/Misc/handcuffs.rsi
+      state: body-overlay-2
+      visible: false
+    - map: [ "ears" ]
+    - map: [ "id" ]
+    - map: [ "outerClothing" ]
+    - map: [ "mask" ]
+    - map: [ "head" ]
+    - map: [ "clownedon" ]
+      sprite: "Effects/creampie.rsi"
+      state: "creampie_human"
+      visible: false
+  - type: GhostRole
+    prob: 0.05
+    makeSentient: true
+    name: ghost-role-information-tajkey-name
+    description: ghost-role-information-tajkey-description
+    rules: ghost-role-information-nonantagonist-rules
+  - type: SentienceTarget
+    flavorKind: station-event-random-sentience-flavor-tajkey
+  - type: DnaModifier
+    upper: MobTajaran
+    lowest: MobTajkey

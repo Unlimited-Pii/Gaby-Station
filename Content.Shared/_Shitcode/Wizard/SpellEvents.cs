@@ -13,21 +13,19 @@
 using System.Numerics;
 using Content.Shared.Actions;
 using Content.Shared.Atmos;
-using Content.Shared.Chemistry.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Destructible.Thresholds;
 using Content.Shared.Explosion;
 using Content.Goobstation.Maths.FixedPoint;
 using Content.Shared.Item;
-using Content.Shared.Magic;
+using Content.Shared.NPC.Prototypes;
 using Content.Shared.Physics;
 using Content.Shared.Polymorph;
 using Content.Shared.Random;
 using Content.Shared.Tag;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio;
-using Robust.Shared.Maths;
 using Robust.Shared.Physics.Dynamics;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
@@ -536,6 +534,13 @@ public sealed partial class DimensionShiftEvent : EntityEventArgs
 }
 
 [DataDefinition]
+public sealed partial class GrantFactionsEvent : EntityEventArgs
+{
+    [DataField(required: true)]
+    public HashSet<ProtoId<NpcFactionPrototype>> Factions = new();
+}
+
+[DataDefinition]
 public sealed partial class RandomizeSpellsEvent : EntityEventArgs
 {
     [DataField]
@@ -543,4 +548,22 @@ public sealed partial class RandomizeSpellsEvent : EntityEventArgs
 
     [DataField(required: true)]
     public Dictionary<ProtoId<WeightedRandomEntityPrototype>, int?> SpellsDict;
+}
+
+public sealed partial class RathenEvent : InstantActionEvent
+{
+    [DataField]
+    public float MaxRange = 5f;
+
+    [DataField]
+    public TimeSpan StunTime = TimeSpan.FromSeconds(5);
+
+    [DataField]
+    public DamageSpecifier SuperFartDamage = new()
+    {
+        DamageDict = { { "Blunt", 10 } },
+    };
+
+    [DataField]
+    public float LimbTearChance = 0.2f;
 }

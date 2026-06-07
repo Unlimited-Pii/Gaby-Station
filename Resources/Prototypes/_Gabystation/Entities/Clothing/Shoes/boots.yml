@@ -1,0 +1,113 @@
+# SPDX-FileCopyrightText: 2026 Space Station 14 Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsCowboyBrownBad
+  name: low quality brown cowboy boots
+  description: They got spurs that jingle and/or jangle. It's very fragile and uncomfortable to wear.
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/cowboybootsbrown.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/cowboybootsbrown.rsi
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepSpurs
+      params:
+        variation: 0.09
+        volume: -6
+
+- type: entity
+  parent: ClothingShoesBootsCowboyBrownBad
+  id: ClothingShoesBootsCowboyBlackBad
+  name: low quality black cowboy boots
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/cowboybootsblack.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/cowboybootsblack.rsi
+
+- type: entity
+  parent: ClothingShoesBootsCowboyBrownBad
+  id: ClothingShoesBootsCowboyWhiteBad
+  name: low quality white cowboy boots
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/cowboybootswhite.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/cowboybootswhite.rsi
+
+- type: entity
+  parent: ClothingShoesBootsCowboyBrownBad
+  id: ClothingShoesBootsCowboyFancyBad
+  name: low quality fancy cowboy boots
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/cowboybootsfancy.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/cowboybootsfancy.rsi
+
+- type: entity
+  parent: [ClothingShoesBootsCombat, ClothingShoesHighheelBoots, BaseSecurityCommandContraband]
+  id: ClothingShoesHighheelBootsCombat
+  name: combat high-heeled boots
+  description: Snazy boots for when you want to be stylish, yet prepared for combat. This one is a top trim, sidearm slots included.
+  components:
+  - type: Sprite
+    sprite: Clothing/Shoes/Boots/highheelboots.rsi
+  - type: Clothing
+    sprite: Clothing/Shoes/Boots/highheelboots.rsi
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepHighHeels
+      params:
+        volume: -6
+        variation: 0.09
+
+- type: entity
+  parent: [BaseSecurityContraband, ClothingShoesBootsMagBase]
+  id: SecurityMagboots
+  name: security magboots
+  description: Standard issue magboots for security officers.
+  components:
+  - type: Matchbox
+  - type: ItemSlots
+    slots:
+      item:
+        name: clothing-boots-sidearm
+        whitelist:
+          tags:
+          - Knife
+          - Sidearm
+  - type: ClothingSlowOnDamageModifier
+    modifier: 0.75
+  - type: ModifyStandingUpTime
+    multiplier: 0.75
+  - type: Armor
+    traumaDeductions:
+      Dismemberment: 0.1
+      OrganDamage: 0.1
+      BoneDamage: 0.1
+      VeinsDamage: 0
+      NerveDamage: 0
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+  - type: Sprite
+    sprite: _Gabystation/Clothing/Shoes/secmag.rsi
+    layers:
+    - state: icon
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: Clothing
+    sprite: _Gabystation/Clothing/Shoes/secmag.rsi
+  - type: FootstepModifier # GabyStation
+    footstepSoundCollection:
+      collection: BootStomp
+  - type: ClothingSpeedModifier
+    walkModifier: 0.85
+    sprintModifier: 0.85

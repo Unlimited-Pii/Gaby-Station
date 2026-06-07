@@ -28,7 +28,7 @@
   id: WeaponEnergyGunLawbringer
   name: steal-target-groups-weapon-lawbringer
   sprite:
-    sprite: _Goobstation/Objects/Weapons/Guns/Battery/lawbringer.rsi
+    sprite: _Gabystation/Misc/lawbringer_stealobjective.rsi # Gabystation Skins
     state: icon
 
 - type: stealTargetGroup
@@ -39,10 +39,10 @@
     state: icon
 
 - type: stealTargetGroup
-  id: RapidSyringeGun
+  id: CMOweapon # GabyStation - new RapidSyringeGun
   name: steal-target-groups-rapid-syringe-gun
   sprite:
-    sprite: _Goobstation/Objects/Weapons/Guns/Cannons/rapid_syringe_gun.rsi
+    sprite: _Gabystation/Objects/Weapons/Guns/Battery/cmogun.rsi
     state: icon
 
 - type: stealTargetGroup

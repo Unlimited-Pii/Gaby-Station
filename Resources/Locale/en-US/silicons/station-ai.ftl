@@ -60,11 +60,8 @@ station-ai-icon-clown = Clownin' around
 station-ai-icon-dorf = Adventure awaits
 station-ai-icon-heartline = Lifeline
 station-ai-icon-smiley = All smiles
+station-ai-icon-sillycon = Sillycon
 
 station-ai-hologram-female = Female appearance
 station-ai-hologram-male = Male appearance
 station-ai-hologram-face = Disembodied head
-station-ai-hologram-cat = Cat form
-station-ai-hologram-dog = Corgi form
-station-ai-hologram-kobold = Kobold form
-station-ai-hologram-monkey = Monkey form

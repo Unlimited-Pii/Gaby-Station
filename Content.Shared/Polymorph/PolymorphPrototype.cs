@@ -106,6 +106,38 @@ public sealed partial record PolymorphConfiguration
     [DataField(serverOnly: true)]
     public bool TransferName;
 
+    // ADT-Geras-Tweak-Start
+    /// <summary>
+    /// Whether or not the entity transfers its knowledge of languages between forms.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool TransferLanguageSpeaker;
+
+    /// <summary>
+    /// Whether or not the entity transfers its speech barks between forms.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool TransferSpeechBarks;
+
+    /// <summary>
+    /// Whether or not the entity transfers its accents between forms.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool TransferAccents;
+
+    /// <summary>
+    /// Whether or not the entity transfers its quirks between forms.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool TransferQuirks;
+
+    /// <summary>
+    /// Whether or not the entity can polymorph between forms in storage.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool CanNotPolymorphInStorage;
+    // ADT-Geras-Tweak-End
+
     /// <summary>
     /// Whether or not the entity transfers its hair, skin color, hair color, etc.
     /// </summary>
@@ -137,10 +169,20 @@ public sealed partial record PolymorphConfiguration
     public bool RevertOnEat;
 
     /// <summary>
-    /// Whether or not an already polymorphed entity is able to be polymorphed again
+    /// If true, attempts to polymorph this polymorph will fail, unless
+    /// <see cref="IgnoreAllowRepeatedMorphs"/> is true on the /new/ morph.
     /// </summary>
     [DataField(serverOnly: true)]
     public bool AllowRepeatedMorphs;
+
+    /// <summary>
+    /// If true, this morph will succeed even when used on an entity
+    /// that is already polymorphed with a configuration that has
+    /// <see cref="AllowRepeatedMorphs"/> set to false. Helpful for
+    /// smite polymorphs which should always succeed.
+    /// </summary>
+    [DataField(serverOnly: true)]
+    public bool IgnoreAllowRepeatedMorphs;
 
     /// <summary>
     /// The amount of time that should pass after this polymorph has ended, before a new one
@@ -161,19 +203,6 @@ public sealed partial record PolymorphConfiguration
     /// </summary>
     [DataField]
     public SoundSpecifier? ExitPolymorphSound;
-
-    // Einstein Engines - Language begin
-    /// <summary>
-    /// The exact names of components to copy over when this polymorph is applied.
-    /// </summary>
-    [DataField(serverOnly: true)]
-    public HashSet<string> CopiedComponents = new()
-    {
-        "LanguageKnowledge",
-        "LanguageSpeaker",
-        "Grammar"
-    };
-    // Einstein Engines - Language end
 
     /// <summary>
     ///     If not null, this popup will be displayed when being polymorphed into something.
@@ -210,7 +239,12 @@ public sealed partial record PolymorphConfiguration
     /// Does nothing on revert.
     /// </summary>
     [DataField(serverOnly: true)]
-    public HashSet<ComponentTransferData> ComponentsToTransfer = new();
+    public HashSet<ComponentTransferData> ComponentsToTransfer = new()
+    {
+        new("LanguageKnowledge"),
+        new("LanguageSpeaker"),
+        new("Grammar"),
+    };
 
     /// <summary>
     ///     Goobstation

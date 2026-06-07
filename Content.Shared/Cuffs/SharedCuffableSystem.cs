@@ -169,6 +169,7 @@ namespace Content.Shared.Cuffs
         [Dependency] private readonly UseDelaySystem _delay = default!;
         [Dependency] private readonly SharedHulkSystem _hulk = default!;
         [Dependency] private readonly SharedCombatModeSystem _combatMode = default!;
+        [Dependency] private readonly IComponentFactory _componentFactory = default!; // Beepsky - GabyStation
 
         public override void Initialize()
         {
@@ -190,6 +191,7 @@ namespace Content.Shared.Cuffs
             SubscribeLocalEvent<CuffableComponent, BuckleAttemptEvent>(OnBuckleAttemptEvent);
             SubscribeLocalEvent<CuffableComponent, UnbuckleAttemptEvent>(OnUnbuckleAttemptEvent);
             SubscribeLocalEvent<CuffableComponent, GetVerbsEvent<Verb>>(AddUncuffVerb);
+            SubscribeLocalEvent<CuffableComponent, GetVerbsEvent<AlternativeVerb>>(OnForceCuffVerb); // Beepsky - GabyStation
             SubscribeLocalEvent<CuffableComponent, UnCuffDoAfterEvent>(OnCuffableDoAfter);
             SubscribeLocalEvent<CuffableComponent, PullStartedMessage>(OnPull);
             SubscribeLocalEvent<CuffableComponent, PullStoppedMessage>(OnPull);
@@ -203,6 +205,8 @@ namespace Content.Shared.Cuffs
             SubscribeLocalEvent<HandcuffComponent, MeleeHitEvent>(OnCuffMeleeHit);
             SubscribeLocalEvent<HandcuffComponent, AddCuffDoAfterEvent>(OnAddCuffDoAfter);
             SubscribeLocalEvent<HandcuffComponent, VirtualItemDeletedEvent>(OnCuffVirtualItemDeleted);
+
+            SubscribeLocalEvent<CanForceHandcuffComponent, ComponentInit>(OnForceStartup); // Beepsky - GabyStation
         }
 
         private void CheckInteract(Entity<CuffableComponent> ent, ref InteractionAttemptEvent args)
@@ -261,6 +265,12 @@ namespace Content.Shared.Cuffs
         private void OnStartup(EntityUid uid, CuffableComponent component, ComponentInit args)
         {
             component.Container = _container.EnsureContainer<Container>(uid, Factory.GetComponentName(component.GetType()));
+        }
+
+        // Beepsky - GabyStation
+        private void OnForceStartup(EntityUid uid, CanForceHandcuffComponent component, ComponentInit args)
+        {
+            component.Container = _container.EnsureContainer<Container>(uid, _componentFactory.GetComponentName(component.GetType()));
         }
 
         private void OnRejuvenate(EntityUid uid, CuffableComponent component, RejuvenateEvent args)
@@ -358,13 +368,18 @@ namespace Content.Shared.Cuffs
             args.Cancel();
         }
 
-        private void HandleStopPull(EntityUid uid, CuffableComponent component, AttemptStopPullingEvent args)
+        private void HandleStopPull(EntityUid uid, CuffableComponent component, ref AttemptStopPullingEvent args)
         {
             if (args.User == null || !Exists(args.User.Value))
                 return;
 
             if (args.User.Value == uid && !component.CanStillInteract)
+            {
+                //TODO: UX feedback. Simply blocking the normal interaction feels like an interface bug
+
                 args.Cancelled = true;
+            }
+
         }
 
         private void OnRemoveCuffsAlert(Entity<CuffableComponent> ent, ref RemoveCuffsAlertEvent args)
@@ -454,6 +469,15 @@ namespace Content.Shared.Cuffs
                 return;
             args.Handled = true;
 
+            // Beepsky - GabyStation
+            if (TryComp<CanForceHandcuffComponent>(args.User, out var canForceCuff))
+            {
+                if (args.Cancelled)
+                    EntityManager.DeleteEntity(canForceCuff.Handcuffs);
+
+                canForceCuff.Handcuffs = null;
+            }
+
             if (!args.Cancelled && TryAddNewCuffs(target, user, uid, cuffable))
             {
                 component.Used = true;
@@ -536,6 +560,63 @@ namespace Content.Shared.Cuffs
             }
         }
 
+        // Beepsky - GabyStation - Start
+        private void OnForceCuffVerb(EntityUid uid, CuffableComponent component, GetVerbsEvent<AlternativeVerb> args)
+        {
+            if (!args.CanAccess)
+                return;
+
+            if (!args.CanInteract)
+                return;
+
+            if (!TryComp<CanForceHandcuffComponent>(args.User, out var forceCuffComp))
+                return;
+
+            if (forceCuffComp.Handcuffs != null)
+                return;
+
+            if (forceCuffComp.RequireHands && args.Hands == null)
+                return;
+
+            if (forceCuffComp.Complex && !args.CanComplexInteract)
+                return;
+
+            var verb = new AlternativeVerb()
+            {
+                Text = Loc.GetString("force-handcuff-verb-get-data-text"),
+                Act = () =>
+                {
+                    ForceCuff(forceCuffComp, args.Target, args.User);
+                }
+            };
+
+            args.Verbs.Add(verb);
+        }
+        // Beepsky - GabyStation - End
+
+        public bool ForceCuff(CanForceHandcuffComponent component, EntityUid target, EntityUid user)
+        {
+            if (component.Container == null)
+                return false;
+
+            var handcuffs = EntityManager.Spawn(component.HandcuffsId);
+
+            if (!_container.Insert(handcuffs, component.Container, force: true))
+            {
+                EntityManager.DeleteEntity(handcuffs);
+                return false;
+            }
+
+            component.Handcuffs = handcuffs;
+
+            if (TryCuffing(user, target, handcuffs, requireHands: false))
+                return true;
+
+            EntityManager.DeleteEntity(handcuffs);
+            component.Handcuffs = null;
+            return false;
+        }
+
         /// <summary>
         ///     Adds virtual cuff items to the user's hands.
         /// </summary>
@@ -597,21 +678,23 @@ namespace Content.Shared.Cuffs
             EnsureComp<HandcuffComponent>(handcuff, out var handcuffsComp);
             handcuffsComp.Used = true;
             Dirty(handcuff, handcuffsComp);
-            
-            var ev = new TargetHandcuffedEvent();
-            RaiseLocalEvent(target, ref ev);
+            // Shitmed Change End
 
             // Success!
             _hands.TryDrop(user, handcuff);
-            var result = _container.Insert(handcuff, component.Container);
-            // Shitmed Change End
+
+            _container.Insert(handcuff, component.Container);
+
+            var ev = new TargetHandcuffedEvent();
+            RaiseLocalEvent(target, ref ev);
 
             UpdateHeldItems(target, handcuff, component);
+
             return true;
         }
 
         /// <returns>False if the target entity isn't cuffable.</returns>
-        public bool TryCuffing(EntityUid user, EntityUid target, EntityUid handcuff, HandcuffComponent? handcuffComponent = null, CuffableComponent? cuffable = null)
+        public bool TryCuffing(EntityUid user, EntityUid target, EntityUid handcuff, HandcuffComponent? handcuffComponent = null, CuffableComponent? cuffable = null, bool requireHands = true) // Beepsky - GabyStation
         {
             if (!Resolve(handcuff, ref handcuffComponent) || !Resolve(target, ref cuffable, false))
                 return false;
@@ -627,10 +710,10 @@ namespace Content.Shared.Cuffs
             {
                 _popup.PopupClient(Loc.GetString("handcuff-component-target-has-no-free-hands-error",
                     ("targetName", Identity.Name(target, EntityManager, user))), user, user);
-                return true;
+                return requireHands; // Beepsky - GabyStation
             }
 
-            if (!_hands.CanDrop(user, handcuff))
+            if (requireHands && !_hands.CanDrop(user, handcuff)) // Beepsky - GabyStation
             {
                 _popup.PopupClient(Loc.GetString("handcuff-component-cannot-drop-cuffs", ("target", Identity.Name(target, EntityManager, user))), user, user);
                 return false;
@@ -658,7 +741,7 @@ namespace Content.Shared.Cuffs
                 BreakOnMove = true,
                 BreakOnWeightlessMove = false,
                 BreakOnDamage = true,
-                NeedHand = true,
+                NeedHand = requireHands, // Beepsky - GabyStation
                 DistanceThreshold = 1f // shorter than default but still feels good
             };
 
@@ -973,9 +1056,4 @@ namespace Content.Shared.Cuffs
         /// </summary>
         public SlotFlags TargetSlots { get; set; }
     }
-}
-
-[Serializable, NetSerializable]
-public sealed partial class AddCuffDoAfterEvent : SimpleDoAfterEvent // Goob Edit moved out of class made public
-{
 }

@@ -12,7 +12,9 @@ surgery-popup-step-SurgeryStepRetractSkin = {$user} is retracting the skin on {$
 surgery-popup-step-SurgeryStepSawBones = {$user} is sawing through the bones on {$target}'s {$part}.
 surgery-popup-step-SurgeryStepPriseOpenBones = {$user} is prising the bones open on {$target}'s {$part}.
 surgery-popup-step-SurgeryStepCloseBones = {$user} is closing the bones on {$target}'s {$part}.
-surgery-popup-step-SurgeryStepMendRibcage = {$user} is mending the ribcage on {$target}'s {$part}.
+surgery-popup-step-SurgeryStepSealBones = {$user} is sealing the bones on {$target}'s {$part}.
+surgery-popup-step-SurgeryStepSealSkull = {$user} is sealing the skull on {$target}'s {$part}.
+surgery-popup-step-SurgeryStepSealRibcage = {$user} is sealing the ribcage on {$target}'s {$part}.
 surgery-popup-step-SurgeryStepCloseIncision = {$user} is closing the incision on {$target}'s {$part}.
 
 surgery-popup-step-SurgeryStepInsertFeature = {$user} is inserting something onto {$target}'s {$part}!
@@ -67,6 +69,7 @@ surgery-popup-step-SurgeryStepInsertPump = {$user} is inserting a pump into {$ta
 surgery-popup-step-SurgeryStepInsertStomach = {$user} is inserting a stomach into {$target}'s {$part}!
 
 surgery-popup-step-SurgeryStepSealOrganWound = {$user} is sealing the wounds on {$target}'s {$part}.
+surgery-popup-step-SurgeryStepPacify = {$user} is pacifying {$target}!
 surgery-popup-step-SurgeryStepLobotomize = {$user} is lobotomizing {$target}!
 surgery-popup-step-SurgeryStepMendBrainTissue = {$user} is mending the brain tissue on {$target}'s {$part}.
 

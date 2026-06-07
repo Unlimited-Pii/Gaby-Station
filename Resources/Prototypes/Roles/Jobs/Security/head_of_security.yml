@@ -152,7 +152,10 @@
       time: 18000 #5 hr, knowing how to use the tools is important
     - !type:RoleTimeRequirement
       role: JobSecurityOfficer
-      time: 18000 #5 hrs
+      time: 36000 #10 hrs
+    - !type:RoleTimeRequirement
+      role: JobDetective
+      time: 3600 #1 hrs
     - !type:DepartmentTimeRequirement
       department: Security
       time: 108000 # 30 hrs
@@ -170,8 +173,16 @@
   icon: "JobIconHeadOfSecurity"
   supervisors: job-supervisors-captain
   canBeAntag: false
+  guides: # goobstation
+  - Security
+  - SpaceLaw
+  # - LegalSOP
+  - Command
+  # - HeadOfSecuritySOP
+  # - SecuritySOP
+  # - AlertLevels
   goobcoins: 45 #Goob content
-  salary: 50 # Gaby content
+  salary: 75 # Gaby content
   access:
   - HeadOfSecurity
   - Command
@@ -203,11 +214,9 @@
     id: HoSPDA
     #gloves: ClothingHandsGlovesCombat - Goobstation, moved to loadouts
     ears: ClothingHeadsetAltSecurity
-    pocket1: WeaponPistolMk58
   storage:
     back:
     - Flash
-    - MagazinePistol
     - SecHypo # Goobstation
 
 - type: chameleonOutfit

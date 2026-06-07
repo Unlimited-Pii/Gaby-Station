@@ -43,13 +43,15 @@
   - ProximitySensor
   - Drone
   - AiRemoteBrain
+  - SpaceBuoyRecipe # GabyStation edit
 
 - type: latheRecipePack
   id: BorgModules
   recipes:
   - BorgModuleAdvancedCleaning
   - BorgModuleAdvancedTool
-  - BorgModuleAdvancedChemical
+  # - BorgModuleAdvancedClowning # goobedit
+  # - BorgModuleAdvancedChemical # Goob edit
   - BorgModuleAdvancedMining
 
 - type: latheRecipePack
@@ -78,3 +80,5 @@
     - MechEquipmentGrabber
     - MechEquipmentHorn
     - MechEquipmentGrabberSmall
+    - MechEquipmentRecycler # GabyStation edit
+

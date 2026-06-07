@@ -128,8 +128,9 @@
           type: Bloodsucker
         damage:
           groups:
-            Brute: -3
-            Burn: -1.25
+            Brute: -2.25
+            Burn: -0.50
+            Toxin: -0.10
   plantMetabolism:
     - !type:PlantAdjustWater
       amount: 0.5
@@ -148,6 +149,18 @@
   color: "#808A51"
   recognizable: true
   physicalDesc: reagent-physical-desc-slimy
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Bloodsucker
+        damage:
+          groups:
+            Brute: -2.25
+            Burn: -0.50
+            Toxin: -0.10
 
 - type: reagent
   id: Slime
@@ -167,6 +180,17 @@
       effects:
       - !type:SatiateHunger
         factor: 1
+    Medicine:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Bloodsucker
+        damage:
+          groups:
+            Brute: -2.25
+            Burn: -0.50
+            Toxin: -0.10
   footstepSound:
     collection: FootstepSlime # makes sense
     params:
@@ -192,6 +216,17 @@
         factor: 1
       - !type:SatiateThirst
         factor: 1
+    Medicine:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Bloodsucker
+        damage:
+          groups:
+            Brute: -2.25
+            Burn: -0.50
+            Toxin: -0.10
   footstepSound:
     collection: FootstepSlime
     params:
@@ -207,6 +242,18 @@
   color: "#162581"
   recognizable: true
   physicalDesc: reagent-physical-desc-metallic
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Bloodsucker
+        damage:
+          groups:
+            Brute: -2.25
+            Burn: -0.50
+            Toxin: -0.10
 
 - type: reagent
   parent: Blood
@@ -218,6 +265,18 @@
   color: "#7a8bf2"
   recognizable: true
   physicalDesc: reagent-physical-desc-pungent
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Bloodsucker
+        damage:
+          groups:
+            Brute: -2.25
+            Burn: -0.50
+            Toxin: -0.10
 
 - type: reagent
   id: ZombieBlood
@@ -233,6 +292,17 @@
       effects:
       - !type:SatiateThirst
         factor: -0.5
+    Medicine:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Bloodsucker
+        damage:
+          groups:
+            Brute: -2.25
+            Burn: -0.50
+            Toxin: -0.10
     Poison:
       effects:
       - !type:HealthChange
@@ -251,6 +321,38 @@
         probability: 0.25
 
 - type: reagent
+  parent: Blood
+  id: SanguinePerniculate
+  name: reagent-name-sanguine-perniculate
+  group: Biological
+  desc: reagent-desc-sanguine-perniculate
+  physicalDesc: reagent-physical-desc-profane
+  flavor: forbidden
+  color: "#660000"
+  boilingPoint: 100.0
+  meltingPoint: 0.0
+  recognizable: true
+  metabolisms:
+    Drink:
+      effects:
+      - !type:SatiateThirst
+        factor: 0.5
+    Poison:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Bloodsucker
+          shouldHave: false
+        damage:
+          types:
+            Poison: 2
+  footstepSound:
+    collection: FootstepBlood
+    params:
+      volume: 6
+
+- type: reagent
   id: Ichor
   name: reagent-name-ichor
   group: Biological
@@ -262,26 +364,33 @@
   metabolisms:
     Drink:
       effects:
-      - !type:SatiateThirst
-        factor: 1.5
-    # Dragon doesn't require airloss healing, so omnizine is still best for humans.
-      - !type:ModifyBloodLevel
-        amount: 3
-      - !type:HealthChange
+      - !type:SuppressPain
+        amount: 4
+        time: 28
+      - !type:HealthChange # Goobstation - Make Ichor less shit
         damage:
-          groups:
-            Burn: -5
-            Brute: -5
-            Toxin: -2
-          types:
+          types: 
+            Heat: -5
+            Shock: -5
+            Cold: -5
+            Caustic: -5
+            Poison: -5
+            Radiation: -5
+            Asphyxiation: -5
             Bloodloss: -5
-            Holy: -10
+            Blunt: -5
+            Slash: -5
+            Piercing: -5 
+   
+      - !type:ModifyBloodLevel
+            amount: 3
+  
       - !type:ModifyBleedAmount
-        amount: -1.5
-  # Just in case you REALLY want to water your plants
+            amount: -1.5
+  # Goobstation, just in case you REALLY  REALLY want to water your plants
   plantMetabolism:
   - !type:PlantAdjustWater
-    amount: 0.5
+    amount: 1
   footstepSound:
     collection: FootstepBlood
     params:

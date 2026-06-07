@@ -27,8 +27,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Linq;
+using Content.Goobstation.Common.Grab;
 using Content.Goobstation.Common.MartialArts;
 using Content.Goobstation.Shared.Changeling.Components;
+using Content.Goobstation.Shared.GrabIntent;
 using Content.Goobstation.Shared.MartialArts.Components;
 using Content.Goobstation.Shared.Sprinting;
 using Content.Goobstation.Shared.Stealth;
@@ -42,8 +44,10 @@ using Content.Shared.Actions;
 using Content.Shared.Alert;
 using Content.Shared.Body.Systems;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Events;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Humanoid;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs;
@@ -59,6 +63,7 @@ using Content.Shared.Speech;
 using Content.Shared.Standing;
 using Content.Shared.StatusEffect;
 using Content.Shared.StatusEffectNew;
+using Content.Shared.StatusEffectNew.Components;
 using Content.Shared.Stunnable;
 using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Melee.Events;
@@ -85,10 +90,12 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
     [Dependency] private readonly Content.Shared.StatusEffect.StatusEffectsSystem _status = default!;
     [Dependency] private readonly Content.Shared.StatusEffectNew.StatusEffectsSystem _newStatus = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly GrabIntentSystem _grab = default!;
     [Dependency] private readonly SharedStaminaSystem _stamina = default!;
     [Dependency] private readonly GrabThrownSystem _grabThrowing = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedStunSystem _stun = default!;
+    [Dependency] private readonly MovementModStatusSystem _movementMod = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -108,6 +115,8 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
     [Dependency] private readonly TraumaSystem _trauma = default!;
     [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
     [Dependency] private readonly SharedSprintingSystem _sprinting = default!;
+
+    public static readonly EntProtoId MartsGenericSlow = "MartialArtsGenericSlowdownEffect";
 
     public override void Initialize()
     {
@@ -131,6 +140,8 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
 
         SubscribeLocalEvent<MartialArtModifiersComponent, GetMeleeAttackRateEvent>(OnGetMeleeAttackRate);
         SubscribeLocalEvent<MartialArtModifiersComponent, RefreshMovementSpeedModifiersEvent>(OnGetMovespeed);
+
+        SubscribeLocalEvent<StatusEffectContainerComponent, BeforeStaminaDamageEvent>(OnBeforeStatusStamina);
 
         SubscribeLocalEvent<MeleeHitEvent>(OnMeleeHit);
         SubscribeLocalEvent<InteractHandEvent>(OnInteract);
@@ -246,6 +257,17 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
     }
 
     #region Event Methods
+
+    private void OnBeforeStatusStamina(Entity<StatusEffectContainerComponent> ent, ref BeforeStaminaDamageEvent args)
+    {
+        if (!_newStatus.TryEffectsWithComp<StaminaResistanceModifierStatusEffectComponent>(ent, out var effects))
+            return;
+
+        foreach (var effect in effects)
+        {
+            args.Value *= effect.Comp1.Modifier;
+        }
+    }
 
     private void OnInteract(InteractHandEvent args)
     {
@@ -450,7 +472,7 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
         if (!_netManager.IsServer || MetaData(user).EntityLifeStage >= EntityLifeStage.Terminating)
             return false;
 
-        if (HasComp<ChangelingIdentityComponent>(user))
+        if (HasComp<ChangelingComponent>(user))
         {
             _popupSystem.PopupEntity(Loc.GetString("cqc-fail-changeling"), user, user);
             return false;
@@ -497,6 +519,17 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
         if (comp.LearnMessage != null)
             _popupSystem.PopupEntity(Loc.GetString(comp.LearnMessage), user, user);
 
+        // Gaby station inicio
+        // Caso especial para jogadores que sao Pinguins, evitando que eles fiquem extremamente fortes com artes marciais
+
+        if (TryComp<HumanoidAppearanceComponent>(user, out var humanoid) && humanoid.Species == "Waddler")
+        {
+            meleeWeaponComponent.AttackRate = 1f;
+            Dirty(user, meleeWeaponComponent);
+        }
+
+        // Gaby station fim
+
         switch (martialArtsPrototype.MartialArtsForm)
         {
             case MartialArtsForms.KungFuDragon:
@@ -506,6 +539,9 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
                 EnsureComp<NinjutsuSneakAttackComponent>(user);
                 break;
             case MartialArtsForms.CloseQuartersCombat:
+                var itcryeverytime =
+                    new CanDoCQCEvent();
+                  /*
                 var riposte = EnsureComp<RiposteeComponent>(user);
                 riposte.Data.TryAdd("CQC",
                     new(0.1f,
@@ -520,6 +556,7 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
                     null,
                     null,
                     new CanDoCQCEvent()));
+                    */
                 break;
         }
 
@@ -595,7 +632,7 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
             if (!TryComp<StandingStateComponent>(uid, out var standingState))
                 return false;
 
-            return standingState.CurrentState != StandingState.Standing;
+            return !standingState.Standing;
         }
     }
 

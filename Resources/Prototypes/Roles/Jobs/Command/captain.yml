@@ -164,9 +164,14 @@
       #any MRP using our code might eventually want to use it
     # - !type:SaturationRequirement # MisandryBox - no neon hair on captain
     #   hairColorSaturation: 0.30
+  guides: # goobstation
+  - Command
+  # - Succession
+  # - StandardProceduresSOP
+  # - CaptainSOP
   goobcoins: 50 #Goob content
   weight: 20
-  salary: 50 # Gaby content
+  salary: 100 # Gaby content
   startingGear: CaptainGear
   icon: "JobIconCaptain"
   joinNotifyCrew: true
@@ -191,7 +196,7 @@
   id: CaptainGear
   equipment:
     shoes: ClothingShoesBootsLaceup
-    eyes: ClothingEyesGlassesSunglasses
+    eyes: ClothingEyesGlassesCommand
     #gloves: ClothingHandsGlovesCaptain - Goobstation, moved to loadouts
     id: CaptainPDA
     ears: ClothingHeadsetAltCommand

@@ -38,9 +38,9 @@
   description: A sturdy, utilitarian winter coat designed to protect security members from any threats and hypothermic events.
   components:
   - type: Sprite
-    sprite: _Goobstation/Clothing/OuterClothing/Wintercoats/secvestcoat.rsi
+    sprite: _Gabystation/Clothing/OuterClothing/WinterCoats/secvestcoat.rsi # Gaby
   - type: Clothing
-    sprite: _Goobstation/Clothing/OuterClothing/Wintercoats/secvestcoat.rsi
+    sprite: _Gabystation/Clothing/OuterClothing/WinterCoats/secvestcoat.rsi # Gaby
   - type: ToggleableClothing
     clothingPrototypes:
       head: ClothingHeadHatHoodWinterSec
@@ -54,7 +54,7 @@
         Piercing: 0.65
         Heat: 0.6
   - type: ExplosionResistance
-    damageCoefficient: 0.95
+    damageCoefficient: 0.65
 
 - type: entity
   parent: ClothingOuterWinterSecArmored
@@ -63,6 +63,19 @@
   description: A sturdy, utilitarian winter coat designed to protect senior security members from any threats and hypothermic events.
   components:
   - type: Sprite
-    sprite: _Goobstation/Clothing/OuterClothing/Wintercoats/seniorsecvestcoat.rsi
+    sprite: _Gabystation/Clothing/OuterClothing/WinterCoats/seniorsecvestcoat.rsi # Gaby
   - type: Clothing
-    sprite: _Goobstation/Clothing/OuterClothing/Wintercoats/seniorsecvestcoat.rsi
+    sprite: _Gabystation/Clothing/OuterClothing/WinterCoats/seniorsecvestcoat.rsi # Gaby
+
+- type: entity
+  parent: ClothingOuterWinterCoat
+  id: ClothingOuterWinterCosmic
+  name: cosmic winter coat
+  description: An expensive machine-made winter coat.
+  components:
+  - type: Sprite
+    sprite: _Goobstation/Clothing/OuterClothing/Wintercoats/cosmic.rsi
+    state: icon
+  - type: Clothing
+    sprite: _Goobstation/Clothing/OuterClothing/Wintercoats/cosmic.rsi
+

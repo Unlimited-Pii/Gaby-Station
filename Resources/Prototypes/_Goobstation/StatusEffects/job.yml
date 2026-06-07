@@ -88,7 +88,7 @@
   parent: JobIcon
   id: JobIconNanotrasenRepresentative
   icon:
-    sprite: /Textures/_Goobstation/Interface/Misc/job_icons.rsi
+    sprite: /Textures/_Gabystation/Interface/Misc/job_icons.rsi # Gaby
     state: nanotrasenrepresentative
   jobName: job-name-ntr
 
@@ -96,6 +96,14 @@
   parent: JobIcon
   id: JobIconBlueshield
   icon:
-    sprite: /Textures/_Goobstation/Interface/Misc/job_icons.rsi
+    sprite: /Textures/_Gabystation/Interface/Misc/job_icons.rsi # Gaby
     state: blueshield
   jobName: job-name-bs
+
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconRadioHost
+  icon:
+    sprite: /Textures/_Goobstation/Interface/Misc/job_icons.rsi
+    state: radiohost
+  jobName: job-name-radiohost

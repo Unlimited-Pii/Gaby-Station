@@ -89,7 +89,6 @@
 // SPDX-FileCopyrightText: 2024 stellar-novas <stellar_novas@riseup.net>
 // SPDX-FileCopyrightText: 2024 themias <89101928+themias@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2024 Арт <123451459+JustArt1m@users.noreply.github.com>
-// SPDX-FileCopyrightText: 2025 AgentePanela <agentepanela@gmail.com>
 // SPDX-FileCopyrightText: 2025 Aiden <28298836+Aidenkrz@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Aiden <aiden@djkraz.com>
 // SPDX-FileCopyrightText: 2025 AvianMaiden <188556051+AvianMaiden@users.noreply.github.com>
@@ -98,12 +97,12 @@
 // SPDX-FileCopyrightText: 2025 Conchelle <mary@thughunt.ing>
 // SPDX-FileCopyrightText: 2025 DrSmugleaf <10968691+DrSmugleaf@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 DrSmugleaf <drsmugleaf@gmail.com>
-// SPDX-FileCopyrightText: 2025 GabyChangelog <agentepanela2@gmail.com>
 // SPDX-FileCopyrightText: 2025 GoobBot <uristmchands@proton.me>
 // SPDX-FileCopyrightText: 2025 Ichaie <167008606+Ichaie@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Ilya246 <57039557+Ilya246@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Ilya246 <ilyukarno@gmail.com>
 // SPDX-FileCopyrightText: 2025 JORJ949 <159719201+JORJ949@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 John Willis <143434770+CerberusWolfie@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 Kyoth25f <kyoth25f@gmail.com>
 // SPDX-FileCopyrightText: 2025 MarkerWicker <markerWicker@proton.me>
 // SPDX-FileCopyrightText: 2025 MortalBaguette <169563638+MortalBaguette@users.noreply.github.com>
@@ -116,8 +115,11 @@
 // SPDX-FileCopyrightText: 2025 Poips <Hanakohashbrown@gmail.com>
 // SPDX-FileCopyrightText: 2025 PuroSlavKing <103608145+PuroSlavKing@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 SX-7 <92227810+SX-7@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 SX-7 <sn1.test.preria.2002@gmail.com>
+// SPDX-FileCopyrightText: 2025 Sara Aldrete's Top Guy <mary@thughunt.ing>
 // SPDX-FileCopyrightText: 2025 Solstice <solsticeofthewinter@gmail.com>
 // SPDX-FileCopyrightText: 2025 Whisper <121047731+QuietlyWhisper@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2025 YotaXP <yotaxp@gmail.com>
 // SPDX-FileCopyrightText: 2025 Zekins <zekins3366@gmail.com>
 // SPDX-FileCopyrightText: 2025 beck-thompson <107373427+beck-thompson@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 blobadoodle <me@bloba.dev>
@@ -132,6 +134,8 @@
 // SPDX-FileCopyrightText: 2025 metalgearsloth <31366439+metalgearsloth@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 shibe <95730644+shibechef@users.noreply.github.com>
 // SPDX-FileCopyrightText: 2025 tetra <169831122+Foralemes@users.noreply.github.com>
+// SPDX-FileCopyrightText: 2026 AgentePanela <agentepanela@gmail.com>
+// SPDX-FileCopyrightText: 2026 GabyChangelog <agentepanela2@gmail.com>
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -161,7 +165,9 @@ using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Content.Server._CD.Records; // CD - Character Records
-using Content.Shared._CD.Records; // CD - Character Records
+using Content.Shared._CD.Records;
+using Content.Shared._Gabystation.ServerCurrency.Prototypes; // CD - Character Records
+using Content.Goobstation.Maths.FixedPoint;
 
 namespace Content.Server.Database
 {
@@ -189,11 +195,14 @@ namespace Content.Server.Database
                 .Include(p => p.Profiles).ThenInclude(h => h.Jobs)
                 .Include(p => p.Profiles).ThenInclude(h => h.Antags)
                 .Include(p => p.Profiles).ThenInclude(h => h.Traits)
-                // Begin CD - Character Records
+                // Begin CD - Character Records and Allergies
                 .Include(p => p.Profiles)
-                .ThenInclude(h => h.CDProfile)
-                .ThenInclude(cd => cd != null ? cd.CharacterRecordEntries : null)
-                // End CD - Character Records
+                    .ThenInclude(h => h.CDProfile)
+                    .ThenInclude(cd => cd != null ? cd.CharacterRecordEntries : null)
+                .Include(p => p.Profiles)
+                    .ThenInclude(h => h.CDProfile)
+                    .ThenInclude(cd => cd != null ? cd.CharacterAllergies : null)
+                // END CD - Character Records and Allergies
                 .Include(p => p.Profiles)
                     .ThenInclude(h => h.Loadouts)
                     .ThenInclude(l => l.Groups)
@@ -215,7 +224,7 @@ namespace Content.Server.Database
             foreach (var favorite in prefs.ConstructionFavorites)
                 constructionFavorites.Add(new ProtoId<ConstructionPrototype>(favorite));
 
-            return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor), constructionFavorites);
+            return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor), constructionFavorites, prefs.GhostSkin, prefs.OOCTitle);
         }
 
         public async Task SaveSelectedCharacterIndexAsync(NetUserId userId, int index)
@@ -247,6 +256,8 @@ namespace Content.Server.Database
             var oldProfile = db.DbContext.Profile
                 .Include(p => p.CDProfile) // CD - Character Records
                     .ThenInclude(cd => cd != null ? cd.CharacterRecordEntries : null)
+                .Include(p => p.CDProfile)
+                    .ThenInclude(cd => cd != null ? cd.CharacterAllergies : null)
                 .Include(p => p.Preference)
                 .Where(p => p.Preference.UserId == userId.UserId)
                 .Include(p => p.Jobs)
@@ -331,6 +342,34 @@ namespace Content.Server.Database
 
         }
 
+        // Gaby station start - titles and more
+        public async Task SaveOOCTitleAsync(NetUserId userId, ProtoId<TitleListingPrototype>? titleId)
+        {
+            await using var db = await GetDb();
+            var prefs = await db.DbContext
+                .Preference
+                .Include(p => p.Profiles)
+                .SingleAsync(p => p.UserId == userId.UserId);
+            prefs.OOCTitle = titleId;
+
+            await db.DbContext.SaveChangesAsync();
+
+        }
+
+        public async Task SaveGhostSkinAsync(NetUserId userId, ProtoId<GhostSkinListingPrototype>? ghostId)
+        {
+            await using var db = await GetDb();
+            var prefs = await db.DbContext
+                .Preference
+                .Include(p => p.Profiles)
+                .SingleAsync(p => p.UserId == userId.UserId);
+            prefs.GhostSkin = ghostId;
+
+            await db.DbContext.SaveChangesAsync();
+
+        }
+        // Gaby end
+
         public async Task SaveConstructionFavoritesAsync(NetUserId userId, List<ProtoId<ConstructionPrototype>> constructionFavorites)
         {
             await using var db = await GetDb();
@@ -395,11 +434,18 @@ namespace Content.Server.Database
             }
             // Gaby change - end
 
-            // Begin CD - Chracter Records
+            // Begin CD - Chracter Records and Allergies
             var cdRecords = profile.CDProfile?.CharacterRecords != null
                 ? RecordsSerialization.Deserialize(profile.CDProfile.CharacterRecords, profile.CDProfile.CharacterRecordEntries)
                 : PlayerProvidedCharacterRecords.DefaultRecords();
-            // End CD - Character Records
+
+            var cdAllergies = profile.CDProfile?.CharacterAllergies != null
+                ? profile.CDProfile.CharacterAllergies
+                    .Select(allergy => (allergy.Allergen, FixedPoint2.FromCents(allergy.Intensity)))
+                    .ToDictionary()
+                : new();
+            // End CD - Character Records and Allergies
+
             var loadouts = new Dictionary<string, RoleLoadout>();
 
             foreach (var role in profile.Loadouts)
@@ -453,7 +499,8 @@ namespace Content.Server.Database
                 traits.ToHashSet(),
                 loadouts,
                 barkVoice, // Goob Station - Barks
-                cdRecords // CD - Character Records
+                cdRecords, // CD - Character Records
+                cdAllergies // CD - Allergies
             );
         }
 
@@ -522,7 +569,7 @@ namespace Content.Server.Database
             }
             // Gaby change - end
 
-            // Begin CD - Character Records
+            // Begin CD - Character Records and Allergies
             profile.CDProfile ??= new CDModel.CDProfile();
             // There are JsonIgnore annotations to ensure that entries are not stored as JSON.
             profile.CDProfile.CharacterRecords = JsonSerializer.SerializeToDocument(humanoid.CDCharacterRecords ?? PlayerProvidedCharacterRecords.DefaultRecords());
@@ -531,7 +578,15 @@ namespace Content.Server.Database
                 profile.CDProfile.CharacterRecordEntries.Clear();
                 profile.CDProfile.CharacterRecordEntries.AddRange(RecordsSerialization.GetEntries(humanoid.CDCharacterRecords));
             }
-            // End CD - Character Records
+
+            profile.CDProfile.CharacterAllergies.Clear();
+            profile.CDProfile.CharacterAllergies.AddRange(humanoid.CDAllergies.Select(entry =>
+                new CDModel.CharacterAllergy
+                {
+                    Allergen = entry.Key,
+                    Intensity = entry.Value.Value,
+                }));
+            // END CD - Character Records and Allergies
 
             profile.Loadouts.Clear();
 
@@ -566,6 +621,73 @@ namespace Content.Server.Database
 
             return profile;
         }
+        #endregion
+
+        #region Gaby Station
+        public async Task<List<GabyModel.GabyStoreOwnedItems>> GetOwnedStoreItemsAsync(
+            NetUserId userId,
+            GabyModel.DbPurchaseType type)
+        {
+            await using var db = await GetDb();
+
+            return await db.DbContext.GabyStoreOwnedItems
+                .Where(p => p.PlayerId == userId.UserId && p.Type == type)
+                .ToListAsync();
+        }
+
+        public async Task<bool> HasStorePurchaseAsync(
+            NetUserId userId,
+            GabyModel.DbPurchaseType type,
+            string prototype)
+        {
+            await using var db = await GetDb();
+
+            return await db.DbContext.GabyStoreOwnedItems
+                .AnyAsync(p =>
+                    p.PlayerId == userId.UserId &&
+                    p.Type == type &&
+                    p.Prototype == prototype);
+        }
+
+        public async Task AddStorePurchaseAsync(
+            NetUserId userId,
+            GabyModel.DbPurchaseType type,
+            string prototype)
+        {
+            await using var db = await GetDb();
+
+            var entry = new GabyModel.GabyStoreOwnedItems
+            {
+                PlayerId = userId.UserId,
+                Type = type,
+                Prototype = prototype,
+                PurchaseDate = DateTime.UtcNow
+            };
+
+            db.DbContext.GabyStoreOwnedItems.Add(entry);
+            await db.DbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveStorePurchaseAsync(
+            NetUserId userId,
+            GabyModel.DbPurchaseType type,
+            string prototype)
+        {
+            await using var db = await GetDb();
+
+            var entry = await db.DbContext.GabyStoreOwnedItems
+                .SingleOrDefaultAsync(p =>
+                    p.PlayerId == userId.UserId &&
+                    p.Type == type &&
+                    p.Prototype == prototype);
+
+            if (entry is null)
+                return;
+
+            db.DbContext.GabyStoreOwnedItems.Remove(entry);
+            await db.DbContext.SaveChangesAsync();
+        }
+
         #endregion
 
         #region User Ids
@@ -1802,6 +1924,56 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
             return notesCol;
         }
 
+        // ADT-BookPrinter-Start
+        public async Task<List<BookPrinterEntry>> GetBookPrinterEntries()
+        {
+            await using var db = await GetDb();
+            return await GetBookPrinterEntriesImpl(db);
+        }
+
+        public async Task<bool> DeleteBookPrinterEntryAsync(int bookId)
+        {
+            await using var db = await GetDb();
+
+            var book = await db.DbContext.BookPrinterEntry
+                .Include(b => b.StampedBy)
+                .Where(b => b.Id == bookId)
+                .FirstOrDefaultAsync();
+
+            if (book == null)
+                return false;
+
+            if (book.StampedBy != null && book.StampedBy.Any())
+            {
+                db.DbContext.RemoveRange(book.StampedBy);
+            }
+
+            db.DbContext.BookPrinterEntry.Remove(book);
+            await db.DbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        protected async Task<List<BookPrinterEntry>> GetBookPrinterEntriesImpl(DbGuard db)
+        {
+            return await db.DbContext.BookPrinterEntry
+                .Include(entry => entry.StampedBy)
+                .ToListAsync();
+        }
+
+        public async Task UploadBookPrinterEntry(BookPrinterEntry bookEntry)
+        {
+            await using var db = await GetDb();
+            await UploadBookPrinterEntryImpl(db, bookEntry);
+        }
+
+        protected async Task UploadBookPrinterEntryImpl(DbGuard db, BookPrinterEntry bookEntry)
+        {
+            db.DbContext.BookPrinterEntry.Add(bookEntry);
+            await db.DbContext.SaveChangesAsync();
+        }
+        // ADT-BookPrinter-End
+
         public async Task<List<AdminWatchlistRecord>> GetActiveWatchlists(Guid player)
         {
             await using var db = await GetDb();
@@ -2207,6 +2379,210 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
             await db.DbContext.SaveChangesAsync();
             return true;
+        }
+
+        #endregion
+
+        #region Goob Polls
+
+        public async Task<int> CreatePollAsync(Poll poll)
+        {
+            await using var db = await GetDb();
+            db.DbContext.Polls.Add(poll);
+            await db.DbContext.SaveChangesAsync();
+            return poll.Id;
+        }
+
+        public async Task<Poll?> GetPollAsync(int pollId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            return await db.DbContext.Polls
+                .Include(p => p.Options)
+                .Include(p => p.Votes)
+                .Include(p => p.CreatedBy)
+                .AsSplitQuery()
+                .SingleOrDefaultAsync(p => p.Id == pollId, cancel);
+        }
+
+        public async Task<List<Poll>> GetActivePollsAsync(CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            return await db.DbContext.Polls
+                .Include(p => p.Options)
+                .Include(p => p.CreatedBy)
+                .AsSplitQuery()
+                .Where(p => p.Active && (p.EndTime == null || p.EndTime > DateTime.UtcNow))
+                .OrderByDescending(p => p.StartTime)
+                .ToListAsync(cancel);
+        }
+
+        public async Task<List<Poll>> GetAllPollsAsync(bool includeInactive = true, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var query = db.DbContext.Polls
+                .Include(p => p.Options)
+                .Include(p => p.CreatedBy)
+                .AsSplitQuery();
+
+            if (!includeInactive)
+                query = query.Where(p => p.Active);
+
+            return await query.OrderByDescending(p => p.StartTime).ToListAsync(cancel);
+        }
+
+        public async Task UpdatePollStatusAsync(int pollId, bool active, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var poll = await db.DbContext.Polls.SingleOrDefaultAsync(p => p.Id == pollId, cancel);
+            if (poll == null)
+                return;
+
+            poll.Active = active;
+            await db.DbContext.SaveChangesAsync(cancel);
+        }
+
+        public async Task<bool> AddPollVoteAsync(int pollId, int optionId, NetUserId userId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var poll = await db.DbContext.Polls
+                .Include(p => p.Options)
+                .SingleOrDefaultAsync(p => p.Id == pollId, cancel);
+
+            if (poll?.Active != true)
+                return false;
+
+            if (poll.EndTime < DateTime.UtcNow)
+                return false;
+
+            if (!poll.Options.Any(o => o.Id == optionId))
+                return false;
+
+            var existingVote = await db.DbContext.PollVotes
+                .AnyAsync(v => v.PollId == pollId && v.PollOptionId == optionId && v.PlayerUserId == userId.UserId, cancel);
+
+            if (existingVote)
+                return false;
+
+            if (!poll.AllowMultipleChoices)
+            {
+                var existingVotes = await db.DbContext.PollVotes
+                    .Where(v => v.PollId == pollId && v.PlayerUserId == userId.UserId)
+                    .ToListAsync(cancel);
+
+                db.DbContext.PollVotes.RemoveRange(existingVotes);
+            }
+
+            var vote = new PollVote
+            {
+                PollId = pollId,
+                PollOptionId = optionId,
+                PlayerUserId = userId.UserId,
+                VotedAt = DateTime.UtcNow
+            };
+
+            db.DbContext.PollVotes.Add(vote);
+            await db.DbContext.SaveChangesAsync(cancel);
+            return true;
+        }
+
+        public async Task<bool> RemovePollVoteAsync(int pollId, int optionId, NetUserId userId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var vote = await db.DbContext.PollVotes
+                .FirstOrDefaultAsync(v => v.PollId == pollId && v.PollOptionId == optionId && v.PlayerUserId == userId.UserId, cancel);
+
+            if (vote == null)
+                return false;
+
+            db.DbContext.PollVotes.Remove(vote);
+            await db.DbContext.SaveChangesAsync(cancel);
+            return true;
+        }
+
+        public async Task<List<PollVote>> GetPollVotesAsync(int pollId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            return await db.DbContext.PollVotes
+                .Include(v => v.Player)
+                .Include(v => v.PollOption)
+                .Where(v => v.PollId == pollId)
+                .ToListAsync(cancel);
+        }
+
+        public async Task<List<PollVote>> GetPlayerVotesAsync(int pollId, NetUserId userId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            return await db.DbContext.PollVotes
+                .Include(v => v.PollOption)
+                .Where(v => v.PollId == pollId && v.PlayerUserId == userId.UserId)
+                .ToListAsync(cancel);
+        }
+
+        public async Task<bool> HasPlayerVotedAsync(int pollId, NetUserId userId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            return await db.DbContext.PollVotes
+                .AnyAsync(v => v.PollId == pollId && v.PlayerUserId == userId.UserId, cancel);
+        }
+
+        public async Task<Dictionary<int, int>> GetPollResultsAsync(int pollId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            return await db.DbContext.PollVotes
+                .Where(v => v.PollId == pollId)
+                .GroupBy(v => v.PollOptionId)
+                .Select(g => new { OptionId = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.OptionId, x => x.Count, cancel);
+        }
+
+        public async Task<bool> MarkPollSeenAsync(int pollId, NetUserId userId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var existing = await db.DbContext.PollSeen
+                .AnyAsync(s => s.PollId == pollId && s.PlayerUserId == userId.UserId, cancel);
+
+            if (existing)
+                return false;
+
+            db.DbContext.PollSeen.Add(new PollSeen
+            {
+                PollId = pollId,
+                PlayerUserId = userId.UserId,
+                SeenAt = DateTime.UtcNow,
+            });
+            await db.DbContext.SaveChangesAsync(cancel);
+            return true;
+        }
+
+        public async Task<HashSet<int>> GetSeenPollIdsAsync(NetUserId userId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var ids = await db.DbContext.PollSeen
+                .Where(s => s.PlayerUserId == userId.UserId)
+                .Select(s => s.PollId)
+                .ToListAsync(cancel);
+
+            return [..ids];
+        }
+
+        public async Task<int> GetPollSeenCountAsync(int pollId, CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            return await db.DbContext.PollSeen
+                .CountAsync(s => s.PollId == pollId, cancel);
         }
 
         #endregion

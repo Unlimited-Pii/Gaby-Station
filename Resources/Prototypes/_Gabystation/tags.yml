@@ -6,7 +6,58 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 - type: Tag
+  id: WaddlerEmotes
+
+- type: Tag
+  id: WeaponPistolLawbringerSkinKit
+
+- type: Tag
+  id: ContrabandDetectorGlasses
+
+- type: Tag
   id: GameDirectorRule
 
 - type: Tag
-  id: WaddlerEmotes
+  id: HosShield
+
+- type: Tag
+  id: ModsuitBootUpgrade
+
+- type: Tag
+  id: ModsuitHeadUpgrade
+
+- type: Tag
+  id: ModsuitChestUpgrade
+
+- type: Tag
+  id: ModsuitHandUpgrade
+
+- type: Tag
+  id: ModsuitControlUnitUpgrade
+
+- type: Tag
+  id: ModsuitPlatingAtmostech
+
+- type: Tag
+  id: ModsuitPlatingCaptain
+
+- type: Tag
+  id: ModsuitPlatingEngineer
+
+- type: Tag
+  id: ModsuitPlatingHeadOfSecurity
+
+- type: Tag
+  id: ModsuitPlatingParamedic
+
+- type: Tag
+  id: ModsuitPlatingRD
+
+- type: Tag
+  id: ModsuitPlatingSecurity
+
+- type: Tag
+  id: CartridgeChesterRifle
+
+- type: Tag
+  id: MagazineChesterLeverRifle

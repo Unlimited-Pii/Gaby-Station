@@ -127,12 +127,14 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
     public Action<CriminalRecord, bool, bool>? OnHistoryUpdated;
     public Action? OnHistoryClosed;
     public Action<SecurityStatus, string>? OnDialogConfirmed;
+    public Action<string, string>? OnRequestArrestWarrant;
 
     public Action<SecurityStatus>? OnStatusFilterPressed;
     private uint _maxLength;
     private bool _access;
     private uint? _selectedKey;
     private CriminalRecord? _selectedRecord;
+    private GeneralStationRecord? _selectedStationRecord;
 
     private DialogWindow? _reasonDialog;
 
@@ -230,6 +232,8 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
             if (_selectedRecord is { } record)
                 OnHistoryUpdated?.Invoke(record, _access, true);
         };
+
+        PrintArrestWarrantButton.OnPressed += GetArrestWarrantReason;
     }
 
     public void StatusFilterPressed(SecurityStatus statusSelected)
@@ -281,10 +285,12 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
             PopulateRecordContainer(state.StationRecord, state.CriminalRecord);
             OnHistoryUpdated?.Invoke(state.CriminalRecord, _access, false);
             _selectedRecord = state.CriminalRecord;
+            _selectedStationRecord = state.StationRecord;
         }
         else
         {
             _selectedRecord = null;
+            _selectedStationRecord = null;
             OnHistoryClosed?.Invoke();
         }
     }
@@ -297,9 +303,10 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
             return;
         }
 
-        var entries = listing.Select(i => new ItemList.Item(RecordListing) {
-                Text = i.Value,
-                Metadata = i.Key
+        var entries = listing.Select(i => new ItemList.Item(RecordListing)
+        {
+            Text = i.Value,
+            Metadata = i.Key
         }).ToList();
         entries.Sort((a, b) => string.Compare(a.Text, b.Text, StringComparison.Ordinal));
         RecordListing.SetItems(entries, (a,b) => string.Compare(a.Text, b.Text));
@@ -360,7 +367,8 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
         if (status == SecurityStatus.Wanted
             || status == SecurityStatus.Suspected
             || status == SecurityStatus.Search
-            || status == SecurityStatus.Dangerous)
+            || status == SecurityStatus.Dangerous
+            || status == SecurityStatus.Demote) // Goobstation
         {
             GetReason(status);
             return;
@@ -409,6 +417,7 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
             SecurityStatus.Search => "hud_search",
             SecurityStatus.Perma => "hud_perma",
             SecurityStatus.Dangerous => "hud_dangerous",
+            SecurityStatus.Demote => "hud_demote", // Goobstation
             _ => "SecurityIconNone"
         };
     }
@@ -432,5 +441,43 @@ public sealed partial class CriminalRecordsConsoleWindow : FancyWindow
         }
 
         return result;
+    }
+
+    private void GetArrestWarrantReason(BaseButton.ButtonEventArgs args) // GabyStation
+    {
+        if (_selectedRecord == null || _selectedStationRecord == null)
+            return;
+
+        
+        var reasonEntry = new QuickDialogEntry(
+            "reason", 
+            QuickDialogEntryType.LongText,
+            Loc.GetString("criminal-records-console-reason"),
+            Loc.GetString("criminal-records-console-reason-placeholder")
+        );
+
+        var observationsEntry = new QuickDialogEntry(
+            "observations",
+            QuickDialogEntryType.LongText,
+            Loc.GetString("criminal-records-console-arrest-warrant-observations"),
+            Loc.GetString("criminal-records-console-arrest-warrant-observations-placeholder")
+        );
+
+        var entries = new List<QuickDialogEntry>() { reasonEntry, observationsEntry };
+        var title = Loc.GetString("criminal-records-console-print-arrest-warrant");
+        _reasonDialog = new DialogWindow(title, entries);
+
+        _reasonDialog.OnConfirmed += responses =>
+        {
+            var reason = responses["reason"];
+            var observations = responses["observations"];
+
+            if (reason.Length < 1 || reason.Length > _maxLength)
+                return;
+
+            OnRequestArrestWarrant?.Invoke(reason, observations);
+        };
+
+        _reasonDialog.OnClose += () => { _reasonDialog = null; };
     }
 }

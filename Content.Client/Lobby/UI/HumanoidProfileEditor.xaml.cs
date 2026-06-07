@@ -165,6 +165,7 @@
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Content.Client._CD.Humanoid;
 using Content.Client.Humanoid;
 using Content.Client.Lobby.UI.Loadouts;
 using Content.Client.Lobby.UI.Roles;
@@ -205,6 +206,8 @@ using Content.Client._CD.Records.UI;
 using Content.Shared._CD.Records;
 using Content.Goobstation.Common.CCVar;
 using Content.Goobstation.Common.Barks;
+using Content.Shared.Chemistry.Reagent;
+using Content.Goobstation.Maths.FixedPoint;
 
 namespace Content.Client.Lobby.UI
 {
@@ -274,9 +277,12 @@ namespace Content.Client.Lobby.UI
 
         private bool _isDirty;
 
-        // Begin CD - Station Records
+        // Begin CD - Station Records and Allergies
         private readonly RecordEditorGui _recordsTab;
-        // End CD - Station Records
+
+        private readonly AllergyPicker _allergiesTab;
+        // End CD - Station Records and Allergies
+
         private static readonly ProtoId<GuideEntryPrototype> DefaultSpeciesGuidebook = "Species";
 
         public event Action<List<ProtoId<GuideEntryPrototype>>>? OnOpenGuidebook;
@@ -640,6 +646,10 @@ namespace Content.Client.Lobby.UI
             // Begin CD - Character Records
             #region CosmaticRecords
 
+            _allergiesTab = new AllergyPicker(UpdateAllergies);
+            TabContainer.AddChild(_allergiesTab);
+            TabContainer.SetTabTitle(TabContainer.ChildCount - 1, Loc.GetString("humanoid-profile-editor-cd-allergies-tab"));
+
             _recordsTab = new RecordEditorGui(UpdateProfileRecords);
             TabContainer.AddChild(_recordsTab);
             TabContainer.SetTabTitle(TabContainer.ChildCount - 1, Loc.GetString("humanoid-profile-editor-cd-records-tab"));
@@ -913,13 +923,39 @@ namespace Content.Client.Lobby.UI
 
                 antagContainer.AddChild(selector);
 
-                antagContainer.AddChild(new Button()
+                var loadoutWindowBtn = new Button()
                 {
-                    Disabled = true,
                     Text = Loc.GetString("loadout-window"),
                     HorizontalAlignment = HAlignment.Right,
                     Margin = new Thickness(3f, 0f, 0f, 0f),
-                });
+                };
+
+                // Goob start
+                if (!_prototypeManager.TryIndex<RoleLoadoutPrototype>(LoadoutSystem.GetAntagPrototype(antag.ID), out var roleLoadoutProto))
+                {
+                    loadoutWindowBtn.Disabled = true;
+                }
+                else
+                {
+                    loadoutWindowBtn.OnPressed += _ =>
+                    {
+                        RoleLoadout? loadout = null;
+
+                        Profile?.Loadouts.TryGetValue(LoadoutSystem.GetAntagPrototype(antag.ID), out loadout);
+                        loadout = loadout?.Clone();
+
+                        if (loadout == null)
+                        {
+                            loadout = new RoleLoadout(roleLoadoutProto.ID);
+                            loadout.SetDefault(Profile, _playerManager.LocalSession, _prototypeManager);
+                        }
+
+                        OpenLoadout(null, loadout, roleLoadoutProto, Loc.GetString(antag.Name));
+                    };
+                }
+
+                antagContainer.AddChild(loadoutWindowBtn);
+                // Goob end
 
                 AntagList.AddChild(antagContainer);
             }
@@ -1005,9 +1041,10 @@ namespace Content.Client.Lobby.UI
             UpdateHeightWidthSliders(); // Goobstation: port EE height/width sliders
             UpdateWeight(); // Goobstation: port EE height/width sliders
 
-            // Begin CD - Character Records
+            // Begin CD - Character Records and Allergies
+            UpdateCDAllergies();
             _recordsTab.Update(profile);
-            // End CD - Character Records
+            // End CD - Character Records and Allergies
 
             RefreshAntags();
             RefreshJobs();
@@ -1272,7 +1309,7 @@ namespace Content.Client.Lobby.UI
             UpdateJobPriorities();
         }
 
-        private void OpenLoadout(JobPrototype? jobProto, RoleLoadout roleLoadout, RoleLoadoutPrototype roleLoadoutProto)
+        private void OpenLoadout(JobPrototype? jobProto, RoleLoadout roleLoadout, RoleLoadoutPrototype roleLoadoutProto, string? title = null)
         {
             _loadoutWindow?.Dispose();
             _loadoutWindow = null;
@@ -1286,7 +1323,7 @@ namespace Content.Client.Lobby.UI
 
             _loadoutWindow = new LoadoutWindow(Profile, roleLoadout, roleLoadoutProto, _playerManager.LocalSession, collection)
             {
-                Title = jobProto?.ID + "-loadout",
+                Title = Loc.GetString("loadout-window-title-loadout", ("job", $"{jobProto?.LocalizedName}")),
             };
 
             // Refresh the buttons etc.
@@ -1340,6 +1377,14 @@ namespace Content.Client.Lobby.UI
             IsDirty = true;
         }
         // End CD - Character Records
+
+        // CD: Allergies editor
+        private void UpdateAllergies(Dictionary<ReagentPrototype, FixedPoint2> allergies)
+        {
+            Profile = Profile?.WithCDAllergies(allergies.Select(allergy => (allergy.Key.ID, allergy.Value))
+                .ToDictionary());
+            SetDirty();
+        }
 
         private void OnFlavorTextChange(string content)
         {
@@ -1775,6 +1820,25 @@ namespace Content.Client.Lobby.UI
 
             PronounsButton.SelectId((int) Profile.Gender);
         }
+
+        // Begin CD - Allergies
+        private void UpdateCDAllergies()
+        {
+            if (Profile == null)
+            {
+                return;
+            }
+
+            var allergies = new Dictionary<ReagentPrototype, FixedPoint2>();
+            foreach (var entry in (Dictionary<string, FixedPoint2>) Profile.CDAllergies)
+            {
+                if (!_prototypeManager.TryIndex(entry.Key, out ReagentPrototype? reagent))
+                    continue;
+                allergies.Add(reagent, entry.Value);
+            }
+            _allergiesTab.SetData(allergies);
+        }
+        // End CD - Allergies
 
         private void UpdateSpawnPriorityControls()
         {

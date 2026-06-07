@@ -31,7 +31,7 @@
 - type: gameMap
   id: Origin
   mapName: 'Origin'
-  mapPath: /Maps/_Goobstation/origin.yml
+  mapPath: /Maps/_Gabystation/origin.yml # Dumont
   minPlayers: 50
   maxPlayers: 85
   stations:
@@ -73,6 +73,8 @@
             MedicalDoctor: [ 6, 6 ]
             Psychologist: [ 1, 1 ]
             MedicalIntern: [ 1, 2 ]
+            Virologist: [ 1, 1 ]
+            Geneticist: [ 1, 1 ] # Corvax-Wega-Genetics
             #science
             ResearchDirector: [ 1, 1 ]
             Scientist: [ 6, 6 ]
@@ -85,10 +87,12 @@
             SecurityOfficer: [ 7, 7 ]
             SecurityCadet: [ 2, 4 ]
             PermaPrisoner: [ 4, 4 ] # Gaby
+            PrisonGuard: [ 1, 1 ] # Gaby
             Brigmedic: [ 1, 1 ]
             #supply
             Quartermaster: [ 1, 1 ]
-            SalvageSpecialist: [ 8, 8 ]
+            SalvageSpecialist: [ 3, 3 ]
+            ShaftMiner: [ 3, 3 ]
             CargoTechnician: [ 5, 5 ]
             #civillian
             Passenger: [ -1, -1 ]

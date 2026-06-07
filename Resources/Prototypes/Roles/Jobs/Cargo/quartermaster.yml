@@ -152,8 +152,13 @@
   supervisors: job-supervisors-captain
   #canBeAntag: false
   antagAdvantage: 75 # Goobstation
+  guides: # goobstation
+  - Cargo
+  # - QuartermasterSOP
+  # - CargoSOP
+  - Command
   goobcoins: 40 #Goob content
-  salary: 50 # Gaby content
+  salary: 75 # Gaby content
   access:
   - Cargo
   - Salvage
@@ -170,6 +175,7 @@
   - !type:AddComponentSpecial
     components:
       - type: CommandStaff
+      - type: QuartermasterTraining
   alternateTitles:
   - QuarterMasterTitleChief
   - QuarterMasterTitleAccountant

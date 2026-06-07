@@ -29,7 +29,7 @@
 
 - type: job
   id: BlueshieldOfficer
-  name: Blueshield Officer
+  name: job-name-bs
   description: "Act as a bodyguard and advisor for Command and CentCom VIPs."
   playTimeTracker: JobBlueshieldOfficer
   requirements:
@@ -48,8 +48,12 @@
       inverted: true
       species:
       - Felinid
+  guides:
+  # - BlueshieldOfficerSOP
+  - Command
+  # - Succession
   goobcoins: 45
-  salary: 50 # Gaby content
+  salary: 75 # Gaby content
   weight: 20
   startingGear: BlueshieldOfficerGear
   icon: "JobIconBlueshield"
@@ -96,7 +100,7 @@
   storage:
     back:
     - Flash
-    - ClothingMaskGasSecurity
+    - ClothingBSOMaskGasSwat
     - CombatKnife
 
 - type: chameleonOutfit

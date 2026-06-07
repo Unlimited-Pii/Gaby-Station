@@ -9,6 +9,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Goobstation.Common.Effects;
 using Content.Shared.Actions;
 using Content.Shared.Coordinates;
 using Content.Shared.Damage;
@@ -45,6 +46,7 @@ public abstract class SharedChameleonProjectorSystem : EntitySystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedTransformSystem _xform = default!;
+    [Dependency] private readonly SparksSystem _sparks = default!; // goob edit
 
     public override void Initialize()
     {
@@ -90,7 +92,13 @@ public abstract class SharedChameleonProjectorSystem : EntitySystem
 
     private void OnDisguiseShutdown(Entity<ChameleonDisguiseComponent> ent, ref ComponentShutdown args)
     {
-        _actions.RemoveProvidedActions(ent.Comp.User, ent.Comp.Projector);
+         // <Trauma> - only remove the specific projector actions rather than everything provided, for morph
+        if (!TryComp<ChameleonProjectorComponent>(ent.Comp.Projector, out var proj))
+            return;
+
+        _actions.RemoveAction(proj.NoRotActionEntity);
+        _actions.RemoveAction(proj.AnchorActionEntity);
+        // </Trauma>
     }
 
     #endregion
@@ -247,6 +255,7 @@ public abstract class SharedChameleonProjectorSystem : EntitySystem
         CopyComp<ItemComponent>((disguise, comp));
 
         _appearance.CopyData(entity, disguise);
+        _sparks.DoSparks(Transform(user).Coordinates); // goob edit - sparks everywhere!
     }
 
     /// <summary>
@@ -269,6 +278,7 @@ public abstract class SharedChameleonProjectorSystem : EntitySystem
 
         Del(ent.Comp.Disguise);
         RemComp<ChameleonDisguisedComponent>(ent);
+        _sparks.DoSparks(Transform(ent).Coordinates); // goob edit - sparks everywhere!
         return true;
     }
 

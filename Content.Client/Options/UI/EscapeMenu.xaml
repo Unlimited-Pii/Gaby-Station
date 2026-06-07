@@ -24,6 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <BoxContainer Orientation="Vertical" SeparationOverride="4" MinWidth="150">
         <Button Access="Public" Name="PatronPerksButton" Text="{Loc 'rmc-ui-patron-perks'}" StyleClasses="Caution" Visible="False" />
         <changelog:ChangelogButton Access="Public" Name="ChangelogButton"/>
+        <Button Access="Public" Name="StoreButton" Text="{Loc 'ui-escape-balanceui'}" />
         <ui:VoteCallMenuButton />
         <PanelContainer StyleClasses="LowDivider" Margin="0 2.5 0 2.5" />
         <Button Access="Public" Name="RulesButton" Text="{Loc 'ui-escape-rules'}" />
@@ -31,6 +32,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <Button Access="Public" Name="WikiButton" Text="{Loc 'ui-escape-wiki'}" />
         <PanelContainer StyleClasses="LowDivider" Margin="0 2.5 0 2.5" />
         <Button Access="Public" Name="OptionsButton" Text="{Loc 'ui-escape-options'}" />
+        <Button Access="Public" Name="CharacterButton" Text="{Loc 'ui-escape-character'}" /> <!-- Goobstation - Character customization in escape menu -->
         <PanelContainer StyleClasses="LowDivider" Margin="0 2.5 0 2.5" />
         <Button Access="Public" Name="DisconnectButton" Text="{Loc 'ui-escape-disconnect'}" />
         <Button Access="Public" Name="QuitButton" Text="{Loc 'ui-escape-quit'}" StyleClasses="ButtonColorRed" />

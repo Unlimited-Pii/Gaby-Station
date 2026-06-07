@@ -545,7 +545,43 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("blacklist", (string)null);
                 });
 
-                        modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
+            modelBuilder.Entity("Content.Server.Database.BookPrinterEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("book_printer_entry_id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("content");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("name");
+
+                    b.Property<string>("StampState")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("stamp_state");
+
+                    b.HasKey("Id")
+                        .HasName("PK_book_printer_entry");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("book_printer_entry", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -571,6 +607,29 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .IsUnique();
 
                     b.ToTable("cdprofile", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.CDModel+CharacterAllergy", b =>
+                {
+                    b.Property<int>("CDProfileId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("cdprofile_id");
+
+                    b.Property<string>("Allergen")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("allergen");
+
+                    b.Property<int>("Intensity")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("intensity");
+
+                    b.HasKey("CDProfileId", "Allergen")
+                        .HasName("PK_cd_character_allergies");
+
+                    b.HasIndex("CDProfileId", "Allergen")
+                        .HasDatabaseName("IX_cd_character_allergies_cdprofile_id_allergen");
+
+                    b.ToTable("cd_character_allergies", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.CDModel+CharacterRecordEntry", b =>
@@ -665,6 +724,36 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.HasIndex("UserId");
 
                     b.ToTable("connection_log", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.GabyModel+GabyStoreOwnedItems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("gaby_store_owned_items_id");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("player_id");
+
+                    b.Property<string>("Prototype")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("prototype");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("purchase_date");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("PK_gaby_store_owned_items");
+
+                    b.ToTable("gaby_store_owned_items", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.IPIntelCache", b =>
@@ -815,6 +904,172 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("player", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.Poll", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("polls_id");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("active");
+
+                    b.Property<bool>("AllowMultipleChoices")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("allow_multiple_choices");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created_by_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("end_time");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("start_time");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("PK_polls");
+
+                    b.HasIndex("Active")
+                        .HasDatabaseName("IX_polls_active");
+
+                    b.HasIndex("CreatedById")
+                        .HasDatabaseName("IX_polls_created_by_id");
+
+                    b.HasIndex("EndTime")
+                        .HasDatabaseName("IX_polls_end_time");
+
+                    b.HasIndex("StartTime")
+                        .HasDatabaseName("IX_polls_start_time");
+
+                    b.ToTable("polls", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.PollOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("poll_options_id");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("display_order");
+
+                    b.Property<string>("OptionText")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("option_text");
+
+                    b.Property<int>("PollId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("poll_id");
+
+                    b.HasKey("Id")
+                        .HasName("PK_poll_options");
+
+                    b.HasIndex("PollId")
+                        .HasDatabaseName("IX_poll_options_poll_id");
+
+                    b.ToTable("poll_options", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.PollSeen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("poll_seen_id");
+
+                    b.Property<Guid>("PlayerUserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("player_user_id");
+
+                    b.Property<int>("PollId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("poll_id");
+
+                    b.Property<DateTime>("SeenAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("seen_at");
+
+                    b.HasKey("Id")
+                        .HasName("PK_poll_seen");
+
+                    b.HasIndex("PlayerUserId")
+                        .HasDatabaseName("IX_poll_seen_player_user_id");
+
+                    b.HasIndex("PollId")
+                        .HasDatabaseName("IX_poll_seen_poll_id");
+
+                    b.HasIndex("PollId", "PlayerUserId")
+                        .IsUnique();
+
+                    b.ToTable("poll_seen", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.PollVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("poll_votes_id");
+
+                    b.Property<Guid>("PlayerUserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("player_user_id");
+
+                    b.Property<int>("PollId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("poll_id");
+
+                    b.Property<int>("PollOptionId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("poll_option_id");
+
+                    b.Property<DateTime>("VotedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("voted_at");
+
+                    b.HasKey("Id")
+                        .HasName("PK_poll_votes");
+
+                    b.HasIndex("PlayerUserId")
+                        .HasDatabaseName("IX_poll_votes_player_user_id");
+
+                    b.HasIndex("PollId")
+                        .HasDatabaseName("IX_poll_votes_poll_id");
+
+                    b.HasIndex("PollOptionId")
+                        .HasDatabaseName("IX_poll_votes_poll_option_id");
+
+                    b.HasIndex("PollId", "PlayerUserId", "PollOptionId")
+                        .IsUnique();
+
+                    b.ToTable("poll_votes", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Preference", b =>
                 {
                     b.Property<int>("Id")
@@ -831,6 +1086,14 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("construction_favorites");
+
+                    b.Property<string>("GhostSkin")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ghost_skin");
+
+                    b.Property<string>("OOCTitle")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ooctitle");
 
                     b.Property<int>("SelectedCharacterSlot")
                         .HasColumnType("INTEGER")
@@ -1200,6 +1463,10 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("INTEGER")
                         .HasColumnName("ghost_color");
 
+                    b.Property<string>("Icon")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("icon");
+
                     b.Property<bool>("LobbyMessage")
                         .HasColumnType("INTEGER")
                         .HasColumnName("lobby_message");
@@ -1566,6 +1833,36 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("server_unban", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.StampedData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("stamped_data_id");
+
+                    b.Property<int?>("BookPrinterEntryId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("book_printer_entry_id");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("color");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("PK_stamped_data");
+
+                    b.HasIndex("BookPrinterEntryId")
+                        .HasDatabaseName("IX_stamped_data_book_printer_entry_id");
+
+                    b.ToTable("stamped_data", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Trait", b =>
                 {
                     b.Property<int>("Id")
@@ -1873,30 +2170,41 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.Navigation("Profile");
                 });
 
-
             modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
-            {
-                b.HasOne("Content.Server.Database.Profile", "Profile")
-                    .WithOne("CDProfile")
-                    .HasForeignKey("Content.Server.Database.CDModel+CDProfile", "ProfileId")
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired()
-                    .HasConstraintName("FK_cdprofile_profile_profile_id");
+                {
+                    b.HasOne("Content.Server.Database.Profile", "Profile")
+                        .WithOne("CDProfile")
+                        .HasForeignKey("Content.Server.Database.CDModel+CDProfile", "ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_cdprofile_profile_profile_id");
 
-                b.Navigation("Profile");
-            });
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.CDModel+CharacterAllergy", b =>
+                {
+                    b.HasOne("Content.Server.Database.CDModel+CDProfile", "CDProfile")
+                        .WithMany("CharacterAllergies")
+                        .HasForeignKey("CDProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_cd_character_allergies_cdprofile_cdprofile_id");
+
+                    b.Navigation("CDProfile");
+                });
 
             modelBuilder.Entity("Content.Server.Database.CDModel+CharacterRecordEntry", b =>
-            {
-                b.HasOne("Content.Server.Database.CDModel+CDProfile", "CDProfile")
-                    .WithMany("CharacterRecordEntries")
-                    .HasForeignKey("CDProfileId")
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired()
-                    .HasConstraintName("FK_cd_character_record_entries_cdprofile_cdprofile_id");
+                {
+                    b.HasOne("Content.Server.Database.CDModel+CDProfile", "CDProfile")
+                        .WithMany("CharacterRecordEntries")
+                        .HasForeignKey("CDProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_cd_character_record_entries_cdprofile_cdprofile_id");
 
-                b.Navigation("CDProfile");
-            });
+                    b.Navigation("CDProfile");
+                });
 
             modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
                 {
@@ -1979,6 +2287,83 @@ namespace Content.Server.Database.Migrations.Sqlite
                         });
 
                     b.Navigation("LastSeenHWId");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.Poll", b =>
+                {
+                    b.HasOne("Content.Server.Database.Player", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_polls_player_created_by_id");
+
+                    b.Navigation("CreatedBy");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.PollOption", b =>
+                {
+                    b.HasOne("Content.Server.Database.Poll", "Poll")
+                        .WithMany("Options")
+                        .HasForeignKey("PollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_poll_options_polls_poll_id");
+
+                    b.Navigation("Poll");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.PollSeen", b =>
+                {
+                    b.HasOne("Content.Server.Database.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerUserId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_poll_seen_player_player_user_id");
+
+                    b.HasOne("Content.Server.Database.Poll", "Poll")
+                        .WithMany()
+                        .HasForeignKey("PollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_poll_seen_polls_poll_id");
+
+                    b.Navigation("Player");
+
+                    b.Navigation("Poll");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.PollVote", b =>
+                {
+                    b.HasOne("Content.Server.Database.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerUserId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_poll_votes_player_player_user_id");
+
+                    b.HasOne("Content.Server.Database.Poll", "Poll")
+                        .WithMany("Votes")
+                        .HasForeignKey("PollId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_poll_votes_polls_poll_id");
+
+                    b.HasOne("Content.Server.Database.PollOption", "PollOption")
+                        .WithMany("Votes")
+                        .HasForeignKey("PollOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_poll_votes_poll_options_poll_option_id");
+
+                    b.Navigation("Player");
+
+                    b.Navigation("Poll");
+
+                    b.Navigation("PollOption");
                 });
 
             modelBuilder.Entity("Content.Server.Database.Profile", b =>
@@ -2314,6 +2699,14 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.Navigation("Ban");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.StampedData", b =>
+                {
+                    b.HasOne("Content.Server.Database.BookPrinterEntry", null)
+                        .WithMany("StampedBy")
+                        .HasForeignKey("BookPrinterEntryId")
+                        .HasConstraintName("FK_stamped_data_book_printer_entry_book_printer_entry_id");
+                });
+
             modelBuilder.Entity("Content.Server.Database.Trait", b =>
                 {
                     b.HasOne("Content.Server.Database.Profile", "Profile")
@@ -2360,10 +2753,17 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.Navigation("Flags");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.BookPrinterEntry", b =>
+                {
+                    b.Navigation("StampedBy");
+                });
+
             modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
-            {
-                b.Navigation("CharacterRecordEntries");
-            });
+                {
+                    b.Navigation("CharacterAllergies");
+
+                    b.Navigation("CharacterRecordEntries");
+                });
 
             modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
                 {
@@ -2415,6 +2815,18 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.Navigation("LinkingCodes");
 
                     b.Navigation("Patron");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.Poll", b =>
+                {
+                    b.Navigation("Options");
+
+                    b.Navigation("Votes");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.PollOption", b =>
+                {
+                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("Content.Server.Database.Preference", b =>

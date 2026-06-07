@@ -276,14 +276,6 @@
     implant: AntagImplantChangeling
 
 - type: entity
-  id: AntagImplanterHeretic
-  suffix: Heretic
-  parent: BaseAntagImplantOnlyImplanter
-  components:
-  - type: Implanter
-    implant: AntagImplantHeretic
-
-- type: entity
   id: AntagImplanterSpaceNinja
   suffix: Space Ninja
   parent: BaseAntagImplantOnlyImplanter
@@ -300,3 +292,11 @@
   components:
   - type: Implanter
     implant: XenoCompatibilityImplant
+
+- type: entity
+  id: RedspaceLifelineImplanter
+  suffix: Redspace Lifeline
+  parent: BaseImplantOnlyImplanterSyndi
+  components:
+    - type: Implanter
+      implant: RedspaceLifelineImplant

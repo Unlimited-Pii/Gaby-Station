@@ -37,3 +37,37 @@
   storage:
     back:
     - PlushieKiiaraWarden
+
+- type: loadout # Andromeda
+  id: PlushieJanie
+  storage:
+    back:
+    - PlushieJanie
+
+- type: loadout
+  id: MP3PlayerWhite
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:OverallPlaytimeRequirement
+      time: 180000 # 50 horas
+  storage:
+    back:
+    - MP3PlayerWhite
+
+- type: loadout
+  id: BookArteDaRobustez
+  storage:
+    back:
+    - BookArteDaRobustez
+
+- type: loadout
+  id: PhotoCamera
+  effects:
+  - !type:JobRequirementLoadoutEffect
+    requirement:
+      !type:OverallPlaytimeRequirement
+      time: 180000 # 50 horas
+  storage:
+    back:
+    - PhotoCameraFilled

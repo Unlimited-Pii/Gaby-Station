@@ -140,6 +140,8 @@
         orGroup: GiftPool
       - id: ClothingNeckCloakMoth
         orGroup: GiftPool
+      - id: TennisBallDog
+        orGroup: GiftPool
       - id: ToyMouse
         orGroup: GiftPool
       - id: ToyAi

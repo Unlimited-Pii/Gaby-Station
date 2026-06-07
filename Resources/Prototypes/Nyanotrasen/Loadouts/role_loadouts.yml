@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2026 Space Station 14 Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Security
+- type: roleLoadout
+  id: JobPrisonGuard
+  groups:
+  - PrisonGuardHead
+  - PrisonGuardJumpsuit
+  - SecurityShoes
+  - PrisonGuardBack
+  - SecurityBelt
+  - SecurityMelee
+  - SurvivalSecurity
+  - TrinketsSecurity
+  - WeaponsSecurityGun # Dumontstation
+  - SecurityStar
+  - Trinkets
+  - Animals
+  - GroupSpeciesBreathToolSecurity
+  - PrisonGuardEnvirohelm
+  - PrisonGuardEnvirosuit
+  - PrisonGuardEnvirogloves

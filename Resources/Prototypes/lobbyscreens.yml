@@ -121,12 +121,6 @@
   name: Atmos
   artist: asardonicsailor
 
-- type: lobbyBackground
-  id: cburn
-  background: /Textures/LobbyScreens/cburn.webp
-  name: Cburn
-  artist: PubliclyExecutedPig
-
 # Gaby station - disable Goob screens (ou meios meh)
 #- type: lobbyBackground
 #  id: clown
@@ -271,6 +265,24 @@
   name: Nanotrasen wants YOU.
   artist: thebiggestbruh
 
+- type: lobbyBackground
+  id: ling-in-my-vents
+  background: /Textures/LobbyScreens/sec_theres_ling_in_my_vents.webp
+  name: Sec theres ling in my vents
+  artist: blooodyspy
+
+- type: lobbyBackground
+  id: we-all-love-ai
+  background: /Textures/LobbyScreens/we_all_love_ai.webp
+  name: We all love ai
+  artist: blooodyspy
+
+- type: lobbyBackground
+  id: syndi-kek
+  background: /Textures/LobbyScreens/syndi_kek.webp
+  name: Syndi kek
+  artist: blooodyspy
+
 # Gabystation - lobby screens
 
 - type: lobbyBackground
@@ -338,3 +350,16 @@
   background: /Textures/_Gabystation/LobbyScreens/selene.webp
   name: The Selene family
   artist: Donner4037
+
+- type: lobbyBackground
+  id: gabywarsplayers
+  background: /Textures/_Gabystation/LobbyScreens/gabywarsplayers.webp
+  name: Gaby Wars (Players)
+  artist: Heartbeat
+
+- type: lobbyBackground
+  id: metamorfosmeta
+  background: /Textures/_Gabystation/LobbyScreens/metamorfosart.webp
+  name: Metamorfos
+  artist: asardonicsailor
+

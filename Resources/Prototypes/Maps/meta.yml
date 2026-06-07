@@ -87,7 +87,7 @@
 - type: gameMap
   id: Meta
   mapName: 'Meta Station'
-  mapPath: /Maps/_Goobstation/meta.yml # Goobstation
+  mapPath: /Maps/_Gabystation/meta.yml # Gaby
   minPlayers: 30 # Goobstation return minPlayers requirement for maps
   maxPlayers: 85 # Goobstation - Limit mappool to highpop versions of maps only
   stations:
@@ -116,6 +116,7 @@
             Chaplain: [ 1, 1 ]
             Librarian: [ 1, 1 ]
             ServiceWorker: [ 2, 2 ]
+            RadioHost: [ 1, 1 ]
             #engineering
             ChiefEngineer: [ 1, 1 ]
             AtmosphericTechnician: [ 3, 3 ]
@@ -127,6 +128,7 @@
             MedicalDoctor: [ 5, 5 ]
             MedicalIntern: [ 3, 6 ]
             Paramedic: [ 1, 1 ]
+            Geneticist: [ 1, 1 ] # Corvax-Wega-Genetics
             #science
             ResearchDirector: [ 1, 1 ]
             Scientist: [ 5, 7 ]
@@ -139,11 +141,13 @@
             SecurityCadet: [ 3, 6 ]
             Lawyer: [ 2, 2 ]
             PermaPrisoner: [ 3, 3 ] # HARMONY
+            PrisonGuard: [ 1, 1 ] # Gaby
             Brigmedic: [ 1, 1 ]
             #supply
             Quartermaster: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
             CargoTechnician: [ 3, 3 ]
+            ShaftMiner: [ 3, 4 ]
             #civilian
             Passenger: [ -1, -1 ]
             Clown: [ 1, 1 ]

@@ -17,6 +17,7 @@
 # SPDX-FileCopyrightText: 2025 grub <unalterableness@gmail.com>
 # SPDX-FileCopyrightText: 2025 pheenty <fedorlukin2006@gmail.com>
 # SPDX-FileCopyrightText: 2025 shityaml <unalterableness@gmail.com>
+# SPDX-FileCopyrightText: 2025 jvne <juneialduncan21@gmail.com>
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -899,6 +900,7 @@
   - NanotrasenRepresentativeBowler
   - NanotrasenRepresentativeOutlaw
   - NanotrasenRepresentativeMAA
+  - NanotrasenRepresentativeBlackCap # Andromeda
 
 - type: loadoutGroup
   id: NanotrasenRepresentativeNeck
@@ -906,7 +908,9 @@
   minLimit: 0
   loadouts:
   - ClothingNeckScarfStripedCentcom
+  - NanotrasenRepresentativeEnsemble
   - ClothingCloakBoatNT
+  - NanotrasenRepresentativeBlackCloak # Andromeda
 
 - type: loadoutGroup
   id: NanotrasenRepresentativeBackpack
@@ -925,6 +929,7 @@
   loadouts:
   - NanotrasenRepresentativeJumpsuit
   - NanotrasenRepresentativeJumpskirt
+  - NanotrasenRepresentativeFancyJumpsuit
 
 - type: loadoutGroup
   id: NanotrasenRepresentativeBelt
@@ -999,6 +1004,7 @@
   exclusiveWith: INNERCLOTHING
   loadouts:
   - BlueshieldOfficerInnerBlueshieldSkirt
+  - BlueshieldOfficerInnerBlueshieldSuit # Gabystation | no idea why it wasn't set here in the first place.
 
 - type: loadoutGroup
   id: BlueshieldOfficerOuter
@@ -1016,6 +1022,7 @@
   minLimit: 0
   loadouts:
   - BlueshieldOfficerOuterBlueshieldMantle
+  - BlueshieldOfficerEnsemble
 
 - type: loadoutGroup
   id: BlueshieldOfficerMask
@@ -1032,6 +1039,7 @@
   - JackBoots
   - BlackCowboyBoots
   - SnowjacksBso
+  - CombatHighHeeledBoots # GabyStation
 
 - type: loadoutGroup
   id: BlueshieldOfficerEnvirohelm
@@ -1160,6 +1168,7 @@
   loadouts:
   - Bodycam # Goobstation - Body cameras
   - ClothingNeckCWPSec
+  - ClothingNeckMantleVeteranSecurity
 
 #honkops
 
@@ -1271,7 +1280,7 @@
   loadouts:
   - RoboticistPDA
 
-# Salvage / Miner
+# Salvage
 
 - type: loadoutGroup
   id: SalvageEnvirohelm
@@ -1350,6 +1359,7 @@
   - JackBoots
   - SecurityWinterBoots
   - AdvancedJackBoots
+  - CombatHighHeeledBoots # Gabystation
 
 - type: loadoutGroup
   id: HeadofSecurityEnvirohelm
@@ -1453,6 +1463,8 @@
   name: loadout-group-security-melee
   loadouts:
   - SecurityMeleeKnife
+  - SecurityMeleePolyBaton
+  - SecurityMeleeSpear
 
 # Zookeeper
 
@@ -1522,3 +1534,89 @@
   hidden: true
   loadouts:
   - LoadoutSpeciesPlasma
+
+# Virologist
+
+- type: loadoutGroup
+  id: VirologistJumpsuit
+  name: loadout-group-virologist-jumpsuit
+  loadouts:
+   - VirologistJumpsuit
+   - VirologistJumpskirt
+   - VirologistMJ # goobin
+
+- type: loadoutGroup
+  id: VirologistBackpack
+  name: loadout-group-virologist-backpack
+  loadouts:
+   - VirologistBackpack
+   - VirologistSatchel
+   - VirologistDuffel
+
+- type: loadoutGroup
+  id: VirologistOuterClothing
+  name: loadout-group-virologist-outerclothing
+  minLimit: 0
+  loadouts:
+   - VirologistLabCoat
+   - VirologistWintercoat
+
+- type: loadoutGroup
+  id: VirologistPDA
+  name: loadout-group-virologist-id
+  loadouts:
+   - VirologistPDA
+
+- type: loadoutGroup
+  id: VirologyEnvirohelm
+  name: loadout-group-virology-envirohelm
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - VirologistEnvirohelm
+
+- type: loadoutGroup
+  id: VirologyEnvirosuit
+  name: loadout-group-virology-envirosuit
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - VirologistEnvirosuit
+
+- type: loadoutGroup
+  id: VirologyEnvirogloves
+  name: loadout-group-virology-envirogloves
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - WhiteEnvirogloves
+  - NitrileEnvirogloves
+
+# Radio Host
+
+- type: loadoutGroup
+  id: RadioHostJumpsuit
+  name: loadout-group-radiohost-jumpsuit
+  loadouts:
+  - JumpsuitHawaiBlack
+  - JumpsuitHawaiBlue
+  - JumpsuitHawaiRed
+  - JumpsuitHawaiYellow
+
+# Salvage/Shaft Miner
+
+- type: loadoutGroup
+  id: SalvageSpecialistJumpsuit
+  name: loadout-group-salvage-specialist-jumpsuit
+  loadouts:
+  - SalvageSpecialistJumpsuit
+  - SalvageSpecialistJumpskirt
+  - SalvageSpecialistOveralls
+
+- type: loadoutGroup
+  id: ShaftMinerJumpsuit
+  name: loadout-group-shaft-miner-jumpsuit
+  loadouts:
+  - ShaftMinerJumpsuit
+  - ShaftMinerJumpskirt
+  - ShaftMinerOveralls

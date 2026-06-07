@@ -1,6 +1,9 @@
 ent-ClothingMaskGas = máscara de gás
     .desc = Uma máscara que pode ser conectada a um tanque de oxigênio.
 
+ent-ClothingMaskGasSwat = Máscara de gás de SWAT
+    .desc = Uma máscara de gás elite para o Departamento de Segurança. Possui um modulador de voz para intimidação.
+
 ent-ClothingMaskGasSecurity = máscara de gás da segurança
     .desc = Equipamento padrão da segurança.
 
@@ -55,3 +58,8 @@ ent-ClothingMaskPlague = máscara de médico da peste
     .desc = Eu tenho um mal pressentimento sobre isso.
     .suffix = Voice Mask
 
+ent-ClothingMaskClownBanana = máscara de bananium
+ .desc = Um palhaço sem maquiagem é tipo um rasta que não fuma.
+
+ent-ClothingMaskGasVoiceCraftable = máscara moduladora de voz
+ .desc = Um máscara mal-feita que esconde sua voz.

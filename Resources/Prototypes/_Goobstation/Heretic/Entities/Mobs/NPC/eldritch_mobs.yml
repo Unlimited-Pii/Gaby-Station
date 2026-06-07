@@ -79,7 +79,7 @@
     description: ghostrole-ghoul-desc
     rules: ghostrole-ghoul-rules
     mindRoles:
-    - MindRoleGhostRoleFamiliar
+    - MindRoleGhoul
     raffle:
       settings: short
   - type: CollectiveMind
@@ -113,14 +113,13 @@
     name: ghostrole-stalker-name
     description: ghostrole-stalker-desc
     mindRoles:
-    - MindRoleGhostRoleFamiliar
-  - type: ActionsProvider
+    - MindRoleGhoul
+  - type: ActionGrant
     actions:
     - ActionHereticJaunt
     # basically an EMP implant. don't feel like making 1 more emp action
     - ActionActivateEmpImplant
-    - ActionHereticShapeshift
-  - type: TriggerImplantAction
+  - type: TriggerOnActivateImplant
   - type: EmpOnTrigger
     range: 5
     energyConsumption: 50000
@@ -130,6 +129,7 @@
     baseSprintSpeed: 5
   - type: FlashImmunity
   - type: ThermalVision
+    thermalShader: null
     isActive: true
     color: white
     drawOverlay: false
@@ -169,15 +169,15 @@
     name: ghostrole-prophet-name
     description: ghostrole-prophet-desc
     mindRoles:
-    - MindRoleGhostRoleFamiliar
-  - type: ActionsProvider
+    - MindRoleGhoul
+  - type: ActionGrant
     actions:
     - ActionHereticJauntLong
     - ActionHereticMansusLink
   - type: HealingAura
     selfHealMultiplier: 2
     componentHealMultipliers:
-      Heretic: 1
+      FleshPassive: 1
       Ghoul: 2
   - type: NightVision
     color: white
@@ -210,7 +210,7 @@
     name: ghostrole-fire-shark-name
     description: ghostrole-fire-shark-desc
     mindRoles:
-    - MindRoleGhostRoleFamiliar
+    - MindRoleGhoul
   - type: Body
     prototype: null
     bodyType: Simple
@@ -278,7 +278,7 @@
     noMovementLayers:
       movement:
         state: rust_walker
-  - type: ActionsProvider
+  - type: ActionGrant
     actions:
     - ActionHereticAggressiveSpread
     - ActionHereticRustWave

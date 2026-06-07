@@ -42,7 +42,7 @@
   - type: StaminaDamageOnCollide
     damage: 30
   - type: KnockdownOnCollide
-    behavior: DropIfStanding
+    dropItems: true
   - type: BlurOnCollide
   - type: TimedDespawn
     lifetime: 0.4
@@ -191,8 +191,8 @@
   id: LaserSniper
   damage:
     types:
-      Heat: 30
-      Shock: 10
+      Heat: 25
+      Shock: 8 #Dumontstation X-00 weapon rebalance
   muzzleFlash:
     sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
     state: muzzle_blue
@@ -207,8 +207,8 @@
   id: RedMediumSplitLaser
   damage:
     types:
-      Heat: 17
-      Shock: 2 # Lecter is slightly armor-piercing and so is this
+      Heat: 18
+      Shock: 4 # Lecter is slightly armor-piercing and so is this
   muzzleFlash:
     sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
     state: muzzle_laser
@@ -229,7 +229,7 @@
     impactEffect: BulletImpactEffectOrangeDisabler
     damage:
       types:
-        Heat: 8
+        Heat: 10 #X-00 weapon rebalance
 
 - type: entity
   name: heavy laser bolt
@@ -241,19 +241,19 @@
     impactEffect: BulletImpactEffectOrangeDisabler
     damage:
       types:
-        Heat: 12
-        Structural: 10
+        Heat: 10
+        Structural: 20 #Dumontstation X-00 weapon rebalance, STRUCTURAL damage
 
 - type: entity
   name: heavy laser barrage
   id: BulletLaserSpreadHeavy
   categories: [ HideSpawnMenu ]
-  parent: BulletLaserHeavy
+  parent: BulletLaserHeavyStructural #Dumontstation X-00 weapon rebalance
   components:
   - type: ProjectileSpread
     proto: BulletLaserHeavyStructural
-    count: 6
-    spread: 30
+    count: 5
+    spread: 25
 
 - type: hitscan
   id: StunPulse
@@ -395,8 +395,8 @@
       - ReagentId: TearGas
         Quantity: 20
     spreadAmount: 5
-  - type: ActiveTimerTrigger
-    timeRemaining: 5
+  - type: TimerTrigger
+    delay: 5
   - type: DeleteOnTrigger
   - type: Projectile
     damage:
@@ -421,14 +421,13 @@
       shader: unshaded
   - type: GatheringProjectile
   - type: DamageMarkerOnCollide
-    onlyWorkOnFauna: false
     whitelist:
       components:
       - MobState
     damage:
       types:
         Burn: 3
-        Holy: 5
+        Holy: 20
     effect: { sprite: /Textures/_ShitChap/Effects/holy_beam.rsi, state: beam }
     sound: /Audio/Effects/holy.ogg
   - type: Projectile
@@ -511,3 +510,22 @@
     - state: icon
   - type: Ammo
     muzzleFlash: null
+
+- type: entity
+  categories: [ HideSpawnMenu ]
+  parent: BaseBullet
+  id: BulletMime
+  name: bullet (silent)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 40
+  - type: EntityEffectOnProjectileHit
+    effects:
+    - !type:GenericStatusEffect
+      key: Muted
+      component: Muted
+      type: Add
+      time: 20
+      refresh: true

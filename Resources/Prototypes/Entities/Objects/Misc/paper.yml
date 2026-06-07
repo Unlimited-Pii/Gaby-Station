@@ -220,7 +220,8 @@
     size: Tiny
   - type: PhysicalComposition #Goobstation - Recycle update
     materialComposition:
-      Paper: 25
+      Paper: 100 # CorvaxGoob
+  - type: Material # CorvaxGoob
 
 - type: entity
   name: paper
@@ -293,11 +294,13 @@
   - type: PhysicalComposition
     materialComposition:
       SheetPrinter: 100
+      Paper: 100 # CorvaxGoob
 # Corvax-Printer-End
   # Goobstation - needed so you can click with spray painter
   - type: Construction
     graph: SpesosCounterfeit
     node: start
+  - type: StationAiWhitelist
 
 - type: entity
   name: paper scrap
@@ -677,3 +680,4 @@
       - !type:EmptyAllContainersBehaviour
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
+  - type: StationAiWhitelist

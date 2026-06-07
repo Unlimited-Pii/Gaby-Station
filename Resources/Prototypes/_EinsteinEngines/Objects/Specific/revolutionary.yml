@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Space Station 14 Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: entity
   name: revolutionary manifesto
   parent: BaseItem
@@ -13,17 +17,21 @@
       - state: icon_manifesto
       - state: detail_bookmark
         color: "#aaaa24"
-    - type: RevolutionaryConverter
-      conversionDuration: 2
+    # Traumastation - flash revs
+    # - type: RevolutionaryConverter
+    #   conversionDuration: 2
+    - type: SpeakDatasetOnUse
+      dataset: RevolutionaryConverterSpeech
     - type: Tag
       tags:
         - Book
     - type: UseDelay
       delay: 2
     - type: Appearance
-    - type: GuideHelp
-      guides:
-      - Revolutionaries
-    - type: Construction
-      graph: RevolutionaryManifesto
-      node: revolutionaryManifesto
+    # Traumastation - flash revs
+    # - type: GuideHelp
+    #   guides:
+    # - Revolutionaries
+    # - type: Construction
+    #   graph: RevolutionaryManifesto
+    #   node: revolutionaryManifesto

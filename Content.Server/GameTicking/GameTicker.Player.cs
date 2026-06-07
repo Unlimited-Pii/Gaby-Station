@@ -147,14 +147,22 @@ namespace Content.Server.GameTicking
 
                 case SessionStatus.Disconnected:
                 {
+                    // Harmony start - ready manifest
+                    if (_playerGameStatuses.TryGetValue(session.UserId, out var playerGameStatus) &&
+                        playerGameStatus == PlayerGameStatus.ReadyToPlay)
+                        _playerGameStatuses[session.UserId] = PlayerGameStatus.NotReadyToPlay;
+
+                    var playerDisconnected = new PlayerDisconnectedEvent();
+                    RaiseLocalEvent(ref playerDisconnected);
+                    // Harmony end - ready manifest
+
                     _chatManager.SendAdminAnnouncement(Loc.GetString("player-leave-message", ("name", args.Session.Name)));
                     if (mindId != null)
                     {
                         _pvsOverride.RemoveSessionOverride(mindId.Value, session);
                     }
 
-                    if (_playerGameStatuses.ContainsKey(session.UserId)) // Goobstation - Queue
-                        _userDb.ClientDisconnected(session);
+                    _userDb.ClientDisconnected(session);
                     break;
                 }
             }
@@ -254,4 +262,9 @@ namespace Content.Server.GameTicking
             PlayerSession = playerSession;
         }
     }
+
+    // Harmony start - ready manifest
+    [ByRefEvent]
+    public struct PlayerDisconnectedEvent;
+    // Harmony end - ready manifest
 }

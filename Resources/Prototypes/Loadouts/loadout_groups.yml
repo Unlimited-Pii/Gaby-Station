@@ -189,6 +189,7 @@
   minLimit: 0
   maxLimit: 3
   loadouts:
+  - BookArteDaRobustez #Gabystation
   - FlowerWreath
   - Hairflower
   - Headphones
@@ -196,6 +197,7 @@
   - PlushieSpaceLizard
   - PersonalAI # Goobstation
   - GoldenPersonalAI # Goobstation
+  - CrewCassette # Goobstation
   - ThreeCandles
   - Lighter
   - CigPackGreen
@@ -221,16 +223,20 @@
   - ClothingNeckGenderfluidPin
   - ClothingNeckTransPin
   - ClothingNeckAutismPin
-  - CardBoxBlack # GoobStation
-  - CardBoxNanotrasen # GoobStation
-  - PlushieBruce # Gabystation
-  - PlushieNiku # Gabystation
-  - PlushieTajaran # Gabystation
-  - PlushieKiiaraWami # Gabystation
-  - PlushieKiiaraWarden # Gabystation
-  - FoodSnackLollypopWrapped # Goobstation
-  - FoodSnackLollypopWrappedRainbow # Goobstation
-  - FoodSnackLollypopWrappedCarp # Goobstation
+  - ClothingNeckGoldAutismPin
+  - OffsetCane
+  - OffsetCaneWood
+  - OffsetCaneClown
+  - OffsetCaneMime
+  - OffsetCaneNT
+  - Cane
+  # GoobStation Start
+  - CardBoxBlack
+  - CardBoxNanotrasen
+  - FoodSnackLollypopWrapped
+  - FoodSnackLollypopWrappedRainbow
+  - FoodSnackLollypopWrappedCarp
+  # Goobstation End
   - TowelColorBlack
   - TowelColorDarkBlue
   - TowelColorDarkGreen
@@ -255,6 +261,16 @@
   - TapeRecorder
   - DrinkOniGourd
   # End DeltaV Additions
+  # Begin Gabystation
+  - PlushieBruce
+  - PlushieNiku
+  - PlushieTajaran
+  - PlushieKiiaraWami
+  - PlushieKiiaraWarden
+  - MP3PlayerWhite
+  - PhotoCamera
+  # End Gabystation
+  - PlushieJanie # DumontStation
 
 - type: loadoutGroup
   id: Glasses
@@ -337,6 +353,8 @@
   loadouts:
   - CaptainHead
   - CaptainCap
+  - CaptainCapcapSenior # goob
+  - CaptainCapMarinheiro #Gabystation
 
 - type: loadoutGroup
   id: CaptainJumpsuit
@@ -350,6 +368,7 @@
   - CaptainFormalSkirt
   - CaptainJumpsuitMilitary # goob
   - CaptainSummerShirt # also goob
+  - CaptainMarinheiroSuit #Gabystation
 
 - type: loadoutGroup
   id: CaptainNeck
@@ -360,6 +379,7 @@
   - CaptainCloakFormal
   - CaptainMantle
   - VeteranCaptainCloak # goob
+  - CaptainEnsemble # goob
 
 - type: loadoutGroup
   id: CaptainBackpack
@@ -405,6 +425,7 @@
   loadouts:
   - HoPCloak
   - HoPMantle
+  - HeadOfPersonnelEnsemble # goob
 
 - type: loadoutGroup
   id: HoPBackpack
@@ -530,6 +551,7 @@
   - LightBrownMJ
   - BrownMJ
   - MaroonMJ
+  - QuarterzipJumpsuit
  # goob changes end
 
 - type: loadoutGroup
@@ -544,8 +566,9 @@
   loadouts:
   - HeadbandBlack
   - WitchHat #Gabystation
-  - BrownFedora #Gabystation
-  - GreyFedora #Gabystation
+  - ToucaDeGato #Gabystation
+  - BrownFedoraOffBrand #Gabystation
+  - GreyFedoraOffBrand #Gabystation
   - Fez #Gabystation
   - PirateHat #Gabystation
   - Sombrero #Gabystation
@@ -609,7 +632,7 @@
 
 - type: loadoutGroup
   id: CivilianBackpackRequired #Gabystation
-  parent: CivilianBackpack 
+  parent: CivilianBackpack
   minLimit: 1 #Quem so puder spawnar com mochila civil sempre vai, o resto não necessáriamente
 
 - type: loadoutGroup
@@ -1153,6 +1176,7 @@
   loadouts:
   - QuartermasterCloak
   - QuartermasterMantle
+  - QuartermasterEnsemble # goob
 
 - type: loadoutGroup
   id: QuartermasterOuterClothing
@@ -1183,6 +1207,7 @@
   loadouts:
   - CargoTechnicianJumpsuit
   - CargoTechnicianJumpskirt
+  - CargoTechnicianOveralls #Goob
   - CargoTechnicianJumpsuitMail # Goob/DeltaV - Mail
   - CargoTechnicianJumpskirtMail # Goob/DeltaV - Mail
   - CargoTechMJ # goob
@@ -1266,6 +1291,7 @@
   loadouts:
   - ChiefEngineerCloak
   - ChiefEngineerMantle
+  - ChiefEngineerEnsemble # goob
 
 - type: loadoutGroup
   id: ChiefEngineerOuterClothing
@@ -1416,6 +1442,7 @@
   loadouts:
   - ResearchDirectorMantle
   - ResearchDirectorCloak
+  - ResearchDirectorEnsemble # goob
 
 - type: loadoutGroup
   id: ResearchDirectorJumpsuit
@@ -1424,7 +1451,9 @@
   exclusiveWith: INNERCLOTHING # Goobstation
   loadouts:
   - ResearchDirectorJumpsuit
+  - ResearchDirectorJumpsuitAlt # goob
   - ResearchDirectorJumpskirt
+  - ResearchDirectorJumpskirtAlt # goob
   - ResearchDirectorMJ # goob
   - RDSummerShirt # goob
 
@@ -1559,6 +1588,7 @@
   - HeadofSecurityCloak
   - HeadofSecurityMantle
   - Bodycam # Goobstation - Body cameras
+  - HeadOfSecurityEnsemble # goob
 
 - type: loadoutGroup
   id: HeadofSecurityOuterClothing
@@ -1620,6 +1650,7 @@
   - SeniorOfficerJumpsuit
   - SeniorOfficerJumpskirt
   - TrooperUniform
+  - VeteranOfficerBlackJumpsuit # Goobstation
   - SecuritySummerJumpsuit # Nyanotrasen
 
 - type: loadoutGroup
@@ -1639,6 +1670,7 @@
   loadouts:
   - SecurityBelt
   - SecurityWebbing
+  - SecurityJudoBelt # Goobstation - Martial Arts
 
 - type: loadoutGroup
   id: SecurityOuterClothing
@@ -1649,6 +1681,7 @@
   - ArmorVestSlim
   - SecurityOfficerWintercoat
   - WinterCoatSeniorSecArmored # Goobstation
+  - VeteranOfficerArmor # Goobstation
 
 - type: loadoutGroup
   id: SecurityShoes
@@ -1658,6 +1691,7 @@
   - JackBoots
   - CombatBoots # Goobstation
   - SecurityWinterBoots
+  - CombatHighHeeledBoots # Gabystation
 
 - type: loadoutGroup
   id: SecurityPDA
@@ -1769,6 +1803,7 @@
   loadouts:
   - ChiefMedicalOfficerCloak
   - ChiefMedicalOfficerMantle
+  - ChiefMedicalOfficerEnsemble # goob
 
 - type: loadoutGroup
   id: ChiefMedicalOfficerShoes

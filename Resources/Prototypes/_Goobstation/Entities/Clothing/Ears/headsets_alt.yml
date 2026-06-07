@@ -64,9 +64,9 @@
       - EncryptionKeyCommand
       - EncryptionKeyCommon
   - type: Sprite
-    sprite: _Goobstation/Clothing/Ears/Headsets/warden.rsi
+    sprite: _Gabystation/Clothing/Ears/Headsets/warden.rsi # Gaby
   - type: Clothing
-    sprite: _Goobstation/Clothing/Ears/Headsets/warden.rsi
+    sprite: _Gabystation/Clothing/Ears/Headsets/warden.rsi # Gaby
 
 - type: entity
   parent: [ClothingHeadsetAlt, BaseCentcommContraband]
@@ -96,9 +96,9 @@
       - EncryptionKeySecurity
       - EncryptionKeyCommon
   - type: Sprite
-    sprite: Clothing/Ears/Headsets/security.rsi
+    sprite: _Gabystation/Clothing/Ears/Headsets/security.rsi # Gaby
   - type: Clothing
-    sprite: Clothing/Ears/Headsets/security.rsi
+    sprite: _Gabystation/Clothing/Ears/Headsets/security.rsi # Gaby
 
 - type: entity
   parent: [ClothingHeadsetAlt, BaseCentcommContraband]
@@ -128,3 +128,18 @@
       - EncryptionKeyCommand
       - EncryptionKeyService
       - EncryptionKeyCommon
+
+- type: entity
+  parent: ClothingHeadsetAlt
+  id: ClothingHeadsetAltRadioHost
+  name: Radio host's over-ear headset
+  description: An over-ear headset with extra foam padding around the ears.
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyCommon
+  - type: Sprite
+    sprite: _Goobstation/Clothing/Ears/Headsets/radiohost.rsi
+  - type: Clothing
+    sprite: _Goobstation/Clothing/Ears/Headsets/radiohost.rsi

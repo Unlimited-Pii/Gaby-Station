@@ -6,7 +6,7 @@
 - type: gameMap
   id: Cog
   mapName: 'Cog'
-  mapPath: /Maps/_Goobstation/cog.yml
+  mapPath: /Maps/_Gabystation/cog.yml # Dumont
   minPlayers: 40
   stations:
     Cog:
@@ -32,6 +32,7 @@
             Janitor: [ 3, 3 ]
             Chaplain: [ 1, 1 ]
             Reporter: [ 2, 2 ]
+            RadioHost: [ 1, 1 ]
             Librarian: [ 1, 1 ]
             ServiceWorker: [ 3, 3 ]
             Zookeeper: [ 1, 1 ]
@@ -47,6 +48,8 @@
             MedicalIntern: [ 3, 3 ]
             Psychologist: [ 1, 1 ]
             Paramedic: [ 2, 2 ]
+            Virologist: [ 1, 1 ]
+            Geneticist: [ 1, 1 ] # Corvax-Wega-Genetics
             #science
             ResearchDirector: [ 1, 1 ]
             Scientist: [ 5, 5 ]
@@ -59,9 +62,12 @@
             SecurityCadet: [ 4, 4 ]
             Lawyer: [ 2, 2 ]
             Brigmedic: [ 1, 1 ]
+            PermaPrisoner: [ 3, 3 ] # Gaby
+            PrisonGuard: [ 1, 1 ] # Gaby
             #supply
             Quartermaster: [ 1, 1 ]
             SalvageSpecialist: [ 3, 3 ]
+            ShaftMiner: [ 4, 4 ]
             CargoTechnician: [ 4, 4 ]
             #civilian
             Passenger: [ -1, -1 ]

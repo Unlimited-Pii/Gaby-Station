@@ -66,11 +66,64 @@
   - GoldButchCleaver
 
 - type: loadoutGroup
+  id: WeaponsSecurityGun
+  name: loadout-group-weapons-security
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - WeaponPistolMk58Gold
+  - WeaponPistolMk58
+  - WeaponEnergyGunPhaser
+
+- type: loadoutGroup
   id: TrinketsSecurity
   name: loadout-group-trinkets-job
   minLimit: 0
   maxLimit: 2
   loadouts:
-  - WeaponPistolMk58Gold
   - ClothingNeckRobusto
   - ClothingNeckChoque
+
+- type: loadoutGroup
+  id: HoSLawbringerSkins
+  name: loadout-group-hos-lawbringerskin
+  minLimit: 0
+  maxLimit: 1
+  loadouts:
+  - HoSLawbringerSkin
+
+# Security
+## Prison Guard
+- type: loadoutGroup
+  id: PrisonGuardBack
+  name: loadout-group-prison-guard-back
+  loadouts:
+  - PrisonGuardBackpack
+  - PrisonGuardSatchel
+  - PrisonGuardDuffel
+  - PrisonGuardMessenger
+
+#Plasmaman
+- type: loadoutGroup
+  id: PrisonGuardEnvirohelm
+  name: loadout-group-prison-guard-envirohelm
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - PrisonGuardEnvirohelm
+
+- type: loadoutGroup
+  id: PrisonGuardEnvirosuit
+  name: loadout-group-prison-guard-envirosuit
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - PrisonGuardEnvirosuit
+
+- type: loadoutGroup
+  id: PrisonGuardEnvirogloves
+  name: loadout-group-prison-guard-envirogloves
+  minLimit: 1
+  maxLimit: 1
+  loadouts:
+  - BlackEnvirogloves

@@ -16,6 +16,18 @@ ent-BaseGasThermoMachine = termomáquina
 ent-GasThermoMachineFreezer = resfriador
     .desc = Resfria o gás em canos conectados.
 
+ent-GasThermoMachineFreezerEnabled = resfriador
+    .desc = Resfria o gás em canos conectados.
+
 ent-GasThermoMachineHeater = aquecedor
     .desc = Aquece o gás em canos conectados.
 
+ent-GasThermoMachineHeaterEnabled = aquecedor
+    .desc = Aquece o gás em canos conectados.
+
+ent-HeatExchangerInline = radiador contínuo
+    .desc = Iguala a temperatura do gás com o do ambiente fora do cano. Sem necessidade de fluxo.
+
+ent-HeatExchangerInlineBend = radiador contínuo curvado
+    .desc = Iguala a temperatura do gás com o do ambiente fora do cano. Sem necessidade de fluxo.
+    .suffix = curvado

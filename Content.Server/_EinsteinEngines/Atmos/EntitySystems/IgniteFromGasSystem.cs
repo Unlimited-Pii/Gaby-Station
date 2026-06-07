@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Linq;
-using Content.Server.Atmos.Components;
+using Content.Shared.Atmos.Components;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server._EinsteinEngines.Atmos.Components;
 using Content.Server.Cloning.Components;
@@ -131,8 +131,7 @@ public sealed class IgniteFromGasSystem : EntitySystem
                 )
                 continue;
 
-            _flammable.AdjustFireStacks(uid, ignite.FireStacksPerUpdate, flammable);
-            _flammable.Ignite(uid, uid, flammable, ignoreFireProtection: true);
+            _flammable.AdjustFireStacks(uid, ignite.FireStacksPerUpdate, flammable, true, 10f);
         }
     }
 }

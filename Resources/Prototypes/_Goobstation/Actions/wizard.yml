@@ -231,6 +231,15 @@
       5: ActionRepulseV
 
 - type: entity
+  parent: ActionRepulse
+  id: ActionRepulseNoRobes
+  components:
+  - type: Magic
+    requiresClothes: false
+    requiresSpeech: true
+    school: Evocation
+
+- type: entity
   parent: BaseAction
   id: ActionStopTime
   name: Stop Time
@@ -1135,3 +1144,30 @@
 #  - type: Magic
 #    requiresSpeech: true
 #    school: Conjuration
+
+- type: entity
+  parent: BaseAction
+  id: ActionRathenSpell
+  name: Rathen's Secret 
+  description: Blast off any nearby victims ass.
+  components:
+  - type: Action
+    raiseOnUser: true
+    useDelay: 50
+    itemIconStyle: BigAction
+    sound: !type:SoundCollectionSpecifier
+      collection: SuperFart
+    icon:
+      sprite: _Goobstation/Wizard/actions.rsi
+      state: rathen
+  - type: InstantAction
+    event: !type:RathenEvent
+  - type: SpeakOnAction
+    sentence: action-speech-spell-rathen
+  - type: Magic
+    requiresClothes: true
+    school: Evocation
+  - type: ActionUpgrade
+    effectedLevels:
+      2: ActionRathenSpellII
+      3: ActionRathenSpellIII

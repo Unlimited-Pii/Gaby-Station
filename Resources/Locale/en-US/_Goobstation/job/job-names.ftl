@@ -10,8 +10,9 @@
 job-name-futureagent = Future Agent
 job-name-salvagediver = Salvage Diver
 job-name-ntr = Nanotrasen Representative
-job-name-bs = Blueshield
+job-name-bs = Greenshield
 job-name-overall = Overall
+job-name-tider = Tider
 
 job-name-exec = Executive Access
 
@@ -23,6 +24,7 @@ job-name-navy-captain = Navy Captain
 job-name-diplomat = Diplomat
 job-name-inspector = Central Command Auditor
 job-name-nct = Nanotrasen Career Trainer
+job-name-outercommander = Outer Commander
 
 # Syndicate
 
@@ -37,10 +39,11 @@ job-name-governmentman = The G-Man
 
 job-name-conquest = Conquest
 job-name-mercenarycaptain = Mercenary Captain
+job-name-radiohost = Radio Host
 
 # Role timers - Make these alphabetical or I cut you (dont listen to upstream, i copied and pasted this, make it very un-alphabetical :godo:)
 
-JobBlueshieldOfficer = Blueshield Officer
+JobBlueshieldOfficer = Greenshield Officer
 JobNanotrasenRepresentative = Nanotrasen Representative
 JobNanotrasenCareerTrainer = Nanotrasen Career Trainer
 JobHecuOperative = HECU Operative
@@ -53,3 +56,5 @@ JobConquest = Conquest
 JobInspector = Central Command Auditor
 JobMercenaryCaptain = Mercenary Captain
 JobRoboticist = Roboticist
+JobRadioHost = Radio Host
+JobVirologist = Virologist

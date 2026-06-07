@@ -459,14 +459,17 @@
     - MiscSignallersStatic
     # Funky # GabyStation - corrections
     - BoomboxStatic
+    # Gabystation
+    dynamicPacks:
+    - MP3Players
   - type: EmagLatheRecipes
     emagStaticPacks:
     - SecurityWeaponsStatic
     - SecurityAmmoStatic
     # Goobstation
+    - SecurityWeaponsStaticGoob
     - SecurityAmmoStaticGoob
     - SyndicateAmmoLightStatic
-    - ScienceExplosives
   - type: BlueprintReceiver
     whitelist:
       tags:
@@ -550,6 +553,7 @@
     - ConstructionBagOfHolding
     # Einstein Engines Packs
     - Translators
+    - ModulesPublic # GabyStation
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - SecurityAmmo
@@ -561,6 +565,7 @@
     - SecurityWeaponsGoob
     - RestraintTechnology
     - MiningWeapons
+    - ScienceExplosives
 
 - type: entity
   id: ProtolatheHyperConvection
@@ -607,6 +612,7 @@
     - SharedBoardsStatic
     - MedicalBoardsStaticGoob
     - SecurityBoardsStaticGoob
+    - ServiceBoardsStaticGoob
     dynamicPacks:
     - EngineeringBoards
     - CargoBoards
@@ -686,6 +692,9 @@
     - PowerAugments
     - ToolAugments
     - PowerCells
+    # Gabystation packs
+    - ModulesPublic
+    - ModulesSimple
   - type: EmagLatheRecipes # Goobstation
     emagStaticPacks:
     - MechWeaponsSecurityStatic
@@ -782,10 +791,12 @@
     - SecurityBoardsStaticGoob
     - SecurityBoardsStaticGoob
     - PowerCellsStatic
-    - ScienceExplosives
     - GrenadeTriggersStatic
-    - SecurityWeaponsNonEmaggableStaticGoob
+    - SecurityWeaponsStaticGoob
+    - CablesStatic #Dumont
+    - ERTAmmoStaticGoob #Dumont, so that sec can print .30 for some new guns
     dynamicPacks:
+    - ScienceExplosives
     - SalvageSecurityBoards
     - SalvageSecurityWeapons
     - SecurityEquipment
@@ -808,6 +819,8 @@
     - SpecOpsGoogles
     - PowerCells
     - BorgModulesSecurityDeltaV # DeltaV - Security Borg
+    - SecurityModules # Gabystation
+    - SecurityClothing # Gabystation
   - type: EmagLatheRecipes # Goobstation
     emagStaticPacks:
     - SyndicateAmmoLightStatic
@@ -911,9 +924,11 @@
     - MedicalBoards
     - Janitor
     - Genetics
+    - MedicalCloning
     # Einstein Engines Packs
     - Translators # Language
     - TranslatorImplanters # Language
+    - MedicalModules # Gabystation
   - type: Machine
     board: MedicalTechFabCircuitboard
   - type: EmagLatheRecipes # Goobstation Packs
@@ -923,7 +938,7 @@
     stealGroup: MedicalTechFabCircuitboard
 
 - type: entity
-  parent: BaseLathe
+  parent: [BaseLatheLube, BaseSiloUtilizer] #Goob edit
   id: UniformPrinter
   name: uniform printer
   description: Prints new or replacement uniforms.
@@ -956,6 +971,7 @@
     - Scarves
     - Carpets
     - Bedsheets
+    - ClothingSecurityDeltaV # DeltaV
     # Goobstation Packs
     - ClothingCasualJumpsuits
     - ClothingCommandSummer

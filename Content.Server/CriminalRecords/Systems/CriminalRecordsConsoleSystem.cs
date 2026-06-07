@@ -37,6 +37,9 @@ using System.Diagnostics.CodeAnalysis;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Security.Components;
 using System.Linq;
+using Content.Shared.Paper;
+using Robust.Shared.Audio.Systems;
+using Robust.Shared.Audio;
 
 namespace Content.Server.CriminalRecords.Systems;
 
@@ -48,10 +51,12 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
     [Dependency] private readonly AccessReaderSystem _access = default!;
     [Dependency] private readonly CriminalRecordsSystem _criminalRecords = default!;
     [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     [Dependency] private readonly RadioSystem _radio = default!;
     [Dependency] private readonly StationRecordsSystem _records = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
+    [Dependency] private readonly PaperSystem _paperSystem = default!;
 
     public override void Initialize()
     {
@@ -67,6 +72,7 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
             subs.Event<CriminalRecordAddHistory>(OnAddHistory);
             subs.Event<CriminalRecordDeleteHistory>(OnDeleteHistory);
             subs.Event<CriminalRecordSetStatusFilter>(OnStatusFilterPressed);
+            subs.Event<CriminalRecordRequestArrestWarrant>(OnRequestArrestWarrant);
         });
 
         Subs.BuiEvents<IdExaminableComponent>(SetWantedVerbMenu.Key, subs => // Goobstation-WantedMenu
@@ -117,7 +123,8 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
         var requireReason = msg.Status is SecurityStatus.Wanted
             or SecurityStatus.Suspected
             or SecurityStatus.Search
-            or SecurityStatus.Dangerous;
+            or SecurityStatus.Dangerous
+            or SecurityStatus.Demote; // Goobstation
 
         if (requireReason != (msg.Reason != null))
             return;
@@ -192,6 +199,8 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
             (_, SecurityStatus.Search) => "search",
             // person is very dangerous
             (_, SecurityStatus.Dangerous) => "dangerous",
+            // person is demoted from their job
+            (_, SecurityStatus.Demote) => "demote", // Goobstation
             // person is no longer sus
             (SecurityStatus.Suspected, SecurityStatus.None) => "not-suspected",
             // going from wanted to none, must have been a mistake
@@ -206,6 +215,8 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
             (SecurityStatus.Search, SecurityStatus.None) => "not-search",
             // person is no longer dangerous
             (SecurityStatus.Dangerous, SecurityStatus.None) => "not-dangerous",
+            // person no longer demoted
+            (SecurityStatus.Demote, SecurityStatus.None) => "not-demoted", // Goobstation
             // this is impossible
             _ => "not-wanted"
         };
@@ -337,6 +348,55 @@ public sealed partial class CriminalRecordsConsoleSystem : SharedCriminalRecords
                 }
             }
         }
-        RemComp<CriminalRecordComponent>(uid);
     }
+
+    /// <summary>
+    /// Handles request for an arrest warrant from the criminal records console UI.
+    /// </summary>
+    /// // GabyStation
+    public void OnRequestArrestWarrant(Entity<CriminalRecordsConsoleComponent> ent, ref CriminalRecordRequestArrestWarrant msg)
+    {
+        if (!CheckSelected(ent, msg.Actor, out var mob, out var key))
+            return;
+
+        var name = _records.RecordName(key.Value);
+        var occupation = _records.TryGetRecord<GeneralStationRecord>(key.Value, out var stationRecord)
+            ? stationRecord.JobTitle
+            : Loc.GetString("criminal-records-console-unknown-occupation");
+        var reason = msg.Reason.Trim();
+        var observations = msg.Details.Trim();
+        GetOfficer(mob.Value, out var officer);
+
+        if (reason.Length < 1 || reason.Length > ent.Comp.MaxStringLength)
+            return;
+
+        if (observations.Length > ent.Comp.MaxStringLength)
+            return;
+
+        // print the warrant
+        var printPaperId = "ArrestWarrant";
+        var printed = Spawn(printPaperId, Transform(ent.Owner).Coordinates);
+
+        if (TryComp<PaperComponent>(printed, out var paper))
+        {
+            var text = Loc.GetString("criminal-records-console-arrest-warrant-text",
+                ("name", name),
+                ("occupation", occupation),
+                ("reason", reason),
+                ("observations", observations),
+                ("officer", officer)
+            );
+
+            _paperSystem.SetContent(printed, text);
+            SoundSpecifier printSound = new SoundPathSpecifier("/Audio/Machines/printer.ogg");
+            _audioSystem.PlayPvs(printSound, printed);
+            _popup.PopupEntity(Loc.GetString("criminal-records-console-arrest-warrant-printed"), ent, mob.Value);
+        }
+        else
+        {
+            QueueDel(printed);
+        }
+
+    }
+    // RemComp<CriminalRecordComponent>(uid); - Beepsky - GabyStation
 }
