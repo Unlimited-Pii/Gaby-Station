@@ -541,3 +541,13 @@
   components:
   - type: BorgSwitchableSubtype
     borgSubtype: security_dog
+
+# Dumont
+- type: entity
+  id: BorgChassisGenericSillycon
+  parent: BorgChassisGeneric
+  name: Sillycon
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: BorgSwitchableSubtype
+    borgSubtype: sillycon
