@@ -516,6 +516,7 @@
     - FootstepSound
     - DoorBumpOpener
     - AnomalyHost
+  - type: BloodSplatterer # Trauma
   - type: Targeting # Shitmed Change
   - type: CanEscapeInventory # GoobStation - Escape being picked up by players
   - type: Consciousness
@@ -529,6 +530,7 @@
   - type: MindControllable # Goobstation
   - type: VisibleContraband # Goobstation
   - type: MomentumSteering # Goobstation - No steer
+  - type: DuoEmote # Funky change
 
 - type: entity
   save: false
