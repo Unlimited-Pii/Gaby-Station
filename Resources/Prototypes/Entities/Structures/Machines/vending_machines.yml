@@ -231,7 +231,7 @@
   - type: UserInterface
     interfaces:
       enum.VendingMachineUiKey.Key:
-        type: VendingMachineBoundUserInterface
+        type: VendingMachineKeypadBoundUserInterface # Funky change
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
   - type: WiresPanel
@@ -1898,7 +1898,7 @@
   - type: Wires # DeltaV: Use shop vendor wires layout
     layoutId: ShopVendor
   - type: AccessReader
-    access: [["Salvage"], ["Mining"]] # Dumont edit
+    access: [["Mining"]] # Dumont edit
   - type: GuideHelp
     guides:
     - Salvage

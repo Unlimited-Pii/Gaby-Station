@@ -158,12 +158,29 @@
     rules:
     - id: Thief
       prob: 0.5
+    # Harmony start
+    - id: Conspirators
+      prob: 0.25
+    # Harmony end
+
+- type: entity
+  parent: BaseGameRule
+  id: SubGamemodesRuleNoWizard
+  components:
+  - type: SubGamemodes
+    rules:
+    - id: Thief
+      prob: 0.5
     - id: Heretic # goob edit
       prob: 0.2
     - id: Devil # Goob
       prob: 0.02
     - id: Shadowling # Goob
       prob: 0.02
+    # Harmony start
+    - id: Conspirators
+      prob: 0.25
+    # Harmony end
 
 - type: entity
   parent: BaseGameRule
@@ -173,8 +190,8 @@
     rules:
     - id: DummyNonAntag
       prob: 0.3
-    - id: Vampire
-      prob: 0.25
+    #- id: Vampire # Dumont
+    #  prob: 0.25
 
 - type: entity
   id: DeathMatch31
@@ -253,9 +270,9 @@
   id: Nukeops
   components:
   - type: GameRule
-    minPlayers: 20
+    minPlayers: 40 # Who decided 20 was a safe amount for Nukies?
   - type: LoadMapRule
-    mapPath: /Maps/_Goobstation/Nonstations/nukieplanet.yml # goob edit
+    mapPath: /Maps/_Dumont/Nonstations/nukieplanet.yml # Dumont edit with nukedroppod!
   - type: NukieOperation
     operations: NukieOperations
   - type: AntagSelection
@@ -392,6 +409,34 @@
       lateJoinAdditional: true
       mindRoles:
       - MindRoleTraitor
+
+- type: entity
+  parent: BaseGameRule
+  id: Conspirators
+  components:
+  - type: GameRule
+    minPlayers: 28 # minimum of 4 conspirators
+    chaosScore: 250 # Dumont
+  - type: ConspiratorRule
+  - type: AntagSelection
+    selectionTime: IntraPlayerSpawn
+    definitions:
+    - prefRoles: [ Conspirator ]
+      min: 4
+      max: 7
+      playerRatio: 7
+      lateJoinAdditional: true
+      briefing:
+        text: conspirator-role-greeting
+        color: "#724F29"
+        sound: /Audio/_Harmony/Misc/conspirator_greeting.ogg
+      components:
+      - type: Conspirator
+      - type: AutoImplant
+        implants:
+        - RadioImplantConspiracy
+      mindRoles:
+      - MindRoleConspirator
 
 - type: entity
   id: Revolutionary
